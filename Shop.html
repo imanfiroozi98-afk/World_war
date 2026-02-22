@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>🌍 GeoWar Phase 3.7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<style>
+*{box-sizing:border-box;font-family:tahoma;}
+body{margin:0;background:#0a0c14;color:white;overflow:hidden;}
+#map{height:100vh;width:100%;z-index:1;}
+
+/* دکمه منوی اصلی (سه خط) */
+#mainMenuBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background: #1e293b;
+    padding: 12px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid #475569;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+#mainMenuBtn:hover {
+    background: #3b82f6;
+    transform: scale(1.05);
+}
+
+/* دکمه باز و بسته کردن پنل اطلاعات */
+#toggleInfoBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: #2d3a4e;
+    padding: 12px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid #475569;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+#toggleInfoBtn:hover {
+    background: #3b82f6;
+}
+
+/* پنل اطلاعات سمت چپ - حالت باز */
+#infoPanel {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    width: 300px;
+    background: rgba(10,15,25,0.98);
+    backdrop-filter: blur(5px);
+    padding: 18px;
+    border-radius: 14px;
+    z-index: 999;
+    border: 1px solid #334155;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+    max-height: 85vh;
+    overflow-y: auto;
+    transition: 0.3s;
+}
+
+/* پنل اطلاعات - حالت بسته */
+#infoPanel.closed {
+    transform: translateX(-320px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* پنل منوی اصلی (مودال) */
+.modal-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    display: none;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-content {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #0f172a;
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid #334155;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #b91c1c;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2001;
+}
+
+.back-btn:hover {
+    background: #dc2626;
+}
+
+.res-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.low-resource {
+    background: #7f1d1d;
+    color: #fecaca;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+button {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 4px 2px;
+    font-size: 13px;
+    width: 100%;
+    transition: 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #3b82f6;
+    transform: scale(1.02);
+}
+
+button:disabled {
+    background: #4b5563;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.btn-success { background: #16a34a; }
+.btn-warning { background: #b45309; }
+.btn-danger { background: #b91c1c; }
+
+hr {
+    border-color: #334155;
+    margin: 12px 0;
+}
+
+.revolution-alert {
+    background: #000000;
+    color: #ff0000;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    animation: revFlash 0.5s infinite;
+}
+
+@keyframes revFlash {
+    0% { background: #000000; color: #ff0000; }
+    50% { background: #ff0000; color: #000000; }
+    100% { background: #000000; color: #ff0000; }
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #94a3b8;
+}
+
+.build-item, .tech-item {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-right: 3px solid #2563eb;
+    transition: 0.2s;
+}
+
+.build-item:hover {
+    transform: translateX(-5px);
+    border-right-color: #3b82f6;
+}
+
+.small-note {
+    font-size: 11px;
+    color: #94a3b8;
+    margin: 5px 0;
+}
+
+.market-price {
+    font-size: 24px;
+    color: #fbbf24;
+    text-align: center;
+    padding: 20px;
+    background: #1e293b;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+
+.rebellion-alert {
+    background: #7f1d1d;
+    color: #fecaca;
+    padding: 8px;
+    border-radius: 6px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    animation: flash 2s infinite;
+}
+
+@keyframes flash {
+    0% { background: #7f1d1d; }
+    50% { background: #b91c1c; }
+    100% { background: #7f1d1d; }
+}
+
+/* استایل منوی اصلی */
+.menu-header {
+    font-size: 24px;
+    color: #60a5fa;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.menu-grid-item {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.menu-grid-item:hover {
+    background: #3b82f6;
+    transform: scale(1.05);
+}
+
+.menu-grid-item .emoji {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.country-info-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0f172a;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid #3b82f6;
+    z-index: 3000;
+    min-width: 350px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.country-info-popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #b91c1c;
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 2500;
+    display: none;
+}
+
+.country-badge {
+    background: #16a34a;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.attack-btn {
+    background: #b91c1c;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.attack-btn:hover {
+    background: #dc2626;
+}
+
+/* بخش‌بندی فروشگاه */
+.shop-category {
+    margin-bottom: 30px;
+}
+
+.category-title {
+    font-size: 20px;
+    color: #fbbf24;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3b82f6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title .emoji {
+    font-size: 24px;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.shop-item {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    transition: 0.2s;
+}
+
+.shop-item:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.shop-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.shop-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shop-item-level {
+    color: #fbbf24;
+    font-size: 14px;
+}
+
+.shop-item-desc {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 8px 0;
+    min-height: 35px;
+}
+
+.shop-item-price {
+    background: #0f172a;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    color: #4ade80;
+    font-weight: bold;
+}
+
+.shop-item button {
+    background: #2563eb;
+    margin-top: 5px;
+}
+
+.shop-item button:hover {
+    background: #3b82f6;
+}
+
+.shop-item button:disabled {
+    background: #4b5563;
+}
+</style>
+</head>
+<body>
+
+<!-- دکمه منوی اصلی (سه خط) -->
+<div id="mainMenuBtn" onclick="openModal('menu')">☰ منو</div>
+
+<!-- دکمه باز و بسته کردن پنل اطلاعات -->
+<div id="toggleInfoBtn" onclick="toggleInfoPanel()">📊 اطلاعات</div>
+
+<!-- پنل اطلاعات -->
+<div id="infoPanel">
+    <div style="font-size:18px;margin-bottom:10px;">👤 <span id="playerName">Player1</span></div>
+    <div class="res-row"><span>🌍 کشور اصلی:</span> <span id="playerCountry">انتخاب نشده</span></div>
+    <div class="res-row"><span>💪 قدرت نظامی:</span> <span id="playerPower">0</span></div>
+    <div class="res-row"><span>😊 رضایت مردم:</span> <span id="stability">70</span>%</div>
+    <div class="res-row"><span>👥 جمعیت کل:</span> <span id="totalPopulation">0</span>M</div>
+    <div id="rebellionWarning" class="rebellion-alert" style="display:none;">⚠️ بحران ملی! شورش در راه است</div>
+    <div id="revolutionAlert" class="revolution-alert" style="display:none;">💥 انقلاب! دولت سقوط کرد</div>
+    <hr>
+    <div class="res-row" id="oil-row"><span>🛢 نفت:</span> <span id="oil">0</span></div>
+    <div class="res-row" id="gas-row"><span>🔥 گاز:</span> <span id="gas">0</span></div>
+    <div class="res-row" id="food-row"><span>🌾 غذا:</span> <span id="food">0</span></div>
+    <div class="res-row" id="gold-row"><span>🪙 طلا:</span> <span id="gold">150</span></div>
+    <hr>
+    <div><b>🏴 قلمروها (<span id="territoryCount">0</span>):</b></div>
+    <div id="ownedList" style="max-height:100px;overflow-y:auto;background:#0f172a;padding:5px;border-radius:6px;margin-top:5px;">هیچ</div>
+    <hr>
+    <button class="btn-success" onclick="collectTax()" id="taxBtn">💰 جمع‌آوری مالیات (۵۰ غذا)</button>
+    <button class="btn-warning" onclick="stabilizeGovernment()" id="stabilizeBtn">🏛 تثبیت دولت (۱۰۰ طلا)</button>
+</div>
+
+<!-- مودال‌ها (پنل‌های بازشو) -->
+<div id="techModal" class="modal-panel">
+    <div class="modal-content" id="techContent">
+        <button class="back-btn" onclick="closeModal('tech')">✕ برگشت</button>
+        <div id="techPanel"></div>
+    </div>
+</div>
+
+<div id="marketModal" class="modal-panel">
+    <div class="modal-content" id="marketContent">
+        <button class="back-btn" onclick="closeModal('market')">✕ برگشت</button>
+        <div id="marketPanel"></div>
+    </div>
+</div>
+
+<div id="shopModal" class="modal-panel">
+    <div class="modal-content" id="shopContent">
+        <button class="back-btn" onclick="closeModal('shop')">✕ برگشت</button>
+        <div id="shopPanel"></div>
+    </div>
+</div>
+
+<div id="menuModal" class="modal-panel">
+    <div class="modal-content" id="menuContent">
+        <button class="back-btn" onclick="closeModal('menu')">✕ برگشت</button>
+        <div id="menuPanel">
+            <div class="menu-header">☰ منوی اصلی</div>
+            
+            <div class="menu-grid">
+                <div class="menu-grid-item" onclick="openModalFromMenu('tech')">
+                    <span class="emoji">🔬</span>
+                    <div>تکنولوژی</div>
+                    <div class="small-note">ارتقا قدرت و تولید</div>
+                </div>
+                
+                <div class="menu-grid-item" onclick="openModalFromMenu('market')">
+                    <span class="emoji">💰</span>
+                    <div>بازار جهانی</div>
+                    <div class="small-note">خرید و فروش نفت</div>
+                </div>
+                
+                <div class="menu-grid-item" onclick="openModalFromMenu('shop')">
+                    <span class="emoji">🏪</span>
+                    <div>فروشگاه</div>
+                    <div class="small-note">تجهیزات و نیرو</div>
+                </div>
+                
+                <div class="menu-grid-item" onclick="showGameStats()">
+                    <span class="emoji">📊</span>
+                    <div>آمار بازی</div>
+                    <div class="small-note">نسخه 3.7</div>
+                </div>
+                
+                <div class="menu-grid-item" onclick="toggleInfoPanel()">
+                    <span class="emoji">📋</span>
+                    <div>اطلاعات</div>
+                    <div class="small-note">باز/بسته کردن پنل</div>
+                </div>
+                
+                <div class="menu-grid-item" onclick="saveGame()">
+                    <span class="emoji">💾</span>
+                    <div>ذخیره</div>
+                    <div class="small-note">ذخیره بازی</div>
+                </div>
+            </div>
+            
+            <hr style="margin: 20px 0;">
+            
+            <div style="text-align: center; color: #94a3b8; font-size: 12px;">
+                GeoWar Phase 3.7 - Ultimate Edition
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay برای پاپ‌آپ اطلاعات کشور -->
+<div id="overlay" class="overlay" onclick="closeCountryPopup()"></div>
+<div id="countryPopup" class="country-info-popup" style="display: none;">
+    <button class="close-btn" onclick="closeCountryPopup()">✕</button>
+    <div id="countryPopupContent"></div>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+// ==================== آدرس‌های GitHub ====================
+const TECH_URL = "https://raw.githubusercontent.com/imanfiroozi98-afk/World_war/main/tech.html";
+const MARKET_URL = "https://raw.githubusercontent.com/imanfiroozi98-afk/World_war/main/market.html";
+const SHOP_URL = "https://raw.githubusercontent.com/imanfiroozi98-afk/World_war/main/shop.html";
+
+// ==================== دیتای کامل کشورها ====================
+const countriesGeo = {
+    "Iran": {oil:4, gas:4, food:2, gold:2, power:70, population:85},
+    "Germany": {oil:1, gas:1, food:3, gold:2, power:60, population:83},
+    "United States of America": {oil:3, gas:3, food:4, gold:3, power:90, population:332},
+    "Russia": {oil:4, gas:5, food:2, gold:2, power:85, population:144},
+    "China": {oil:2, gas:3, food:4, gold:3, power:80, population:1400},
+    "Saudi Arabia": {oil:5, gas:3, food:1, gold:2, power:65, population:35},
+    "France": {oil:0, gas:1, food:3, gold:2, power:55, population:67},
+    "United Kingdom": {oil:1, gas:1, food:2, gold:3, power:58, population:67},
+    "Japan": {oil:0, gas:0, food:1, gold:4, power:62, population:125},
+    "India": {oil:1, gas:1, food:3, gold:1, power:68, population:1380},
+    "Brazil": {oil:2, gas:1, food:4, gold:1, power:60, population:213},
+    "Canada": {oil:3, gas:2, food:2, gold:2, power:55, population:38},
+    "Australia": {oil:2, gas:2, food:3, gold:3, power:50, population:26},
+    "Mexico": {oil:2, gas:2, food:2, gold:1, power:45, population:128},
+    "Indonesia": {oil:2, gas:2, food:3, gold:1, power:40, population:273},
+    "Pakistan": {oil:1, gas:2, food:2, gold:0, power:45, population:220},
+    "Nigeria": {oil:2, gas:3, food:2, gold:0, power:35, population:206},
+    "Egypt": {oil:2, gas:2, food:2, gold:1, power:40, population:102},
+    "Turkey": {oil:1, gas:1, food:3, gold:1, power:50, population:84},
+    "South Korea": {oil:0, gas:0, food:2, gold:3, power:65, population:52},
+    "Spain": {oil:0, gas:1, food:3, gold:2, power:45, population:47},
+    "Italy": {oil:0, gas:1, food:3, gold:2, power:48, population:60},
+    "Thailand": {oil:1, gas:1, food:3, gold:1, power:35, population:70},
+    "South Africa": {oil:1, gas:1, food:2, gold:3, power:40, population:60},
+    "Argentina": {oil:2, gas:2, food:4, gold:1, power:38, population:45},
+    "Algeria": {oil:3, gas:3, food:1, gold:1, power:35, population:44},
+    "Iraq": {oil:4, gas:3, food:2, gold:1, power:42, population:40},
+    "Kazakhstan": {oil:2, gas:2, food:2, gold:2, power:30, population:19},
+    "Qatar": {oil:5, gas:5, food:0, gold:4, power:25, population:2.8},
+    "UAE": {oil:4, gas:4, food:1, gold:4, power:40, population:10},
+    "Kuwait": {oil:5, gas:4, food:1, gold:3, power:30, population:4.3},
+    "Venezuela": {oil:5, gas:4, food:2, gold:1, power:35, population:28},
+    "Libya": {oil:4, gas:3, food:1, gold:1, power:25, population:6.9},
+    "Norway": {oil:3, gas:4, food:2, gold:3, power:35, population:5.4},
+    "Netherlands": {oil:1, gas:2, food:2, gold:3, power:38, population:17},
+    "Poland": {oil:0, gas:1, food:3, gold:1, power:40, population:38},
+    "Ukraine": {oil:1, gas:2, food:4, gold:1, power:38, population:44},
+    "Vietnam": {oil:1, gas:1, food:4, gold:1, power:35, population:97},
+    "Philippines": {oil:0, gas:1, food:3, gold:1, power:30, population:109},
+    "Malaysia": {oil:2, gas:2, food:2, gold:2, power:32, population:32},
+    "Peru": {oil:1, gas:2, food:2, gold:2, power:28, population:33},
+    "Chile": {oil:0, gas:1, food:2, gold:3, power:32, population:19},
+    "Colombia": {oil:2, gas:1, food:3, gold:1, power:30, population:50},
+    "Ecuador": {oil:2, gas:1, food:2, gold:1, power:22, population:17},
+    "Angola": {oil:3, gas:2, food:1, gold:1, power:25, population:33},
+    "Sudan": {oil:1, gas:1, food:2, gold:0, power:20, population:44},
+    "Morocco": {oil:0, gas:1, food:3, gold:1, power:28, population:37},
+    "Syria": {oil:1, gas:1, food:2, gold:0, power:22, population:18},
+    "Afghanistan": {oil:0, gas:0, food:1, gold:0, power:18, population:39},
+    "Yemen": {oil:1, gas:1, food:1, gold:0, power:15, population:30},
+    "Iceland": {oil:0, gas:0, food:1, gold:0, power:5, population:0.4},
+    "Greenland": {oil:1, gas:0, food:0, gold:0, power:2, population:0.06},
+    "Mongolia": {oil:0, gas:0, food:1, gold:1, power:12, population:3.3},
+    "Nepal": {oil:0, gas:0, food:1, gold:0, power:8, population:29},
+    "Sri Lanka": {oil:0, gas:0, food:2, gold:0, power:10, population:21},
+    "Bangladesh": {oil:0, gas:1, food:2, gold:0, power:15, population:165},
+    "Myanmar": {oil:1, gas:1, food:2, gold:0, power:18, population:54},
+    "Laos": {oil:0, gas:0, food:1, gold:0, power:6, population:7.2},
+    "Cambodia": {oil:0, gas:0, food:1, gold:0, power:8, population:16},
+    "Taiwan": {oil:0, gas:0, food:1, gold:3, power:35, population:23},
+    "North Korea": {oil:0, gas:0, food:0, gold:0, power:25, population:25},
+    "New Zealand": {oil:1, gas:1, food:3, gold:2, power:18, population:5.1},
+    "Papua New Guinea": {oil:1, gas:1, food:1, gold:2, power:8, population:8.9},
+    "Fiji": {oil:0, gas:0, food:1, gold:0, power:3, population:0.9},
+    "Cuba": {oil:1, gas:0, food:1, gold:0, power:12, population:11.3},
+    "Jamaica": {oil:0, gas:0, food:1, gold:1, power:4, population:2.9},
+    "Haiti": {oil:0, gas:0, food:0, gold:0, power:3, population:11.4},
+    "Dominican Republic": {oil:0, gas:0, food:1, gold:0, power:8, population:10.8},
+    "Panama": {oil:0, gas:0, food:1, gold:2, power:6, population:4.3},
+    "Costa Rica": {oil:0, gas:0, food:2, gold:1, power:5, population:5.1},
+    "Guatemala": {oil:1, gas:0, food:1, gold:0, power:7, population:17.9},
+    "Honduras": {oil:0, gas:0, food:1, gold:0, power:5, population:9.9},
+    "Nicaragua": {oil:0, gas:0, food:1, gold:0, power:5, population:6.6},
+    "El Salvador": {oil:0, gas:0, food:1, gold:0, power:4, population:6.5},
+    "Bolivia": {oil:1, gas:2, food:1, gold:1, power:12, population:11.6},
+    "Paraguay": {oil:0, gas:0, food:2, gold:0, power:8, population:7.1},
+    "Uruguay": {oil:0, gas:0, food:3, gold:1, power:10, population:3.5},
+    "Guyana": {oil:2, gas:1, food:1, gold:1, power:5, population:0.8},
+    "Suriname": {oil:1, gas:1, food:1, gold:1, power:4, population:0.6},
+    "French Guiana": {oil:0, gas:0, food:1, gold:1, power:3, population:0.3},
+    "Portugal": {oil:0, gas:0, food:2, gold:2, power:18, population:10.3},
+    "Ireland": {oil:0, gas:1, food:3, gold:2, power:15, population:5},
+    "Belgium": {oil:0, gas:1, food:2, gold:3, power:20, population:11.5},
+    "Switzerland": {oil:0, gas:0, food:1, gold:4, power:18, population:8.6},
+    "Austria": {oil:0, gas:1, food:2, gold:2, power:16, population:9},
+    "Hungary": {oil:0, gas:1, food:2, gold:1, power:14, population:9.7},
+    "Czech Republic": {oil:0, gas:0, food:2, gold:2, power:15, population:10.7},
+    "Slovakia": {oil:0, gas:0, food:2, gold:1, power:12, population:5.5},
+    "Slovenia": {oil:0, gas:0, food:1, gold:1, power:8, population:2.1},
+    "Croatia": {oil:0, gas:1, food:2, gold:1, power:10, population:4.1},
+    "Bosnia": {oil:0, gas:0, food:1, gold:0, power:8, population:3.3},
+    "Serbia": {oil:0, gas:0, food:2, gold:0, power:12, population:6.9},
+    "Albania": {oil:0, gas:0, food:1, gold:0, power:6, population:2.9},
+    "Greece": {oil:0, gas:1, food:2, gold:1, power:20, population:10.4},
+    "Bulgaria": {oil:0, gas:1, food:2, gold:0, power:12, population:6.9},
+    "Romania": {oil:1, gas:2, food:2, gold:0, power:18, population:19.2},
+    "Moldova": {oil:0, gas:0, food:2, gold:0, power:5, population:2.6},
+    "Belarus": {oil:0, gas:1, food:2, gold:0, power:15, population:9.4},
+    "Lithuania": {oil:0, gas:0, food:2, gold:1, power:10, population:2.8},
+    "Latvia": {oil:0, gas:0, food:1, gold:1, power:8, population:1.9},
+    "Estonia": {oil:0, gas:0, food:1, gold:1, power:7, population:1.3},
+    "Finland": {oil:0, gas:0, food:2, gold:2, power:18, population:5.5},
+    "Sweden": {oil:0, gas:0, food:2, gold:3, power:22, population:10.4},
+    "Denmark": {oil:1, gas:1, food:2, gold:3, power:16, population:5.8}
+};
+
+// ==================== داده ذخیره ====================
+let geoWarSave = {
+    playerName: "Player1",
+    playerCountry: null,
+    playerPower: 100,
+    stability: 70,
+    resources: { oil: 20, gas: 10, food: 30, gold: 150 },
+    ownership: {},
+    buildings: { 
+        // تجهیزات درآمدزا
+        mine: 0, farm: 0, refinery: 0, market: 0,
+        // سرباز و پلیس
+        soldier: 0, police: 0, tank: 0,
+        // جنگنده ها
+        fighterJet: 0, bomber: 0, drone: 0,
+        // حفاظت رئیس جمهور
+        bodyguard: 0, safeHouse: 0, bunker: 0 
+    },
+    technology: { military: 1, oil: 1, farm: 1, industry: 1 },
+    market: { oilPrice: 100, globalSupply: 1000, event: "عادی" },
+    lastUpdate: Date.now()
+};
+
+// لود ذخیره
+try {
+    let saved = JSON.parse(localStorage.getItem("geoWarSave"));
+    if(saved) {
+        geoWarSave = {...geoWarSave, ...saved};
+        if(!geoWarSave.buildings) geoWarSave.buildings = { 
+            mine:0, farm:0, refinery:0, market:0,
+            soldier:0, police:0, tank:0,
+            fighterJet:0, bomber:0, drone:0,
+            bodyguard:0, safeHouse:0, bunker:0 
+        };
+        if(!geoWarSave.technology) geoWarSave.technology = { military: 1, oil: 1, farm: 1, industry: 1 };
+        if
