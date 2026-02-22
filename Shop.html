@@ -1,73 +1,0 @@
-<div style="padding: 20px;">
-    <h2 style="color: #60a5fa; margin-bottom: 30px;">🏪 فروشگاه ساختمان</h2>
-    
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 20px;">🏥 بیمارستان</span>
-            <span style="color: #fbbf24;" id="hospitalLevel">0/5</span>
-        </div>
-        <div style="color: #94a3b8; margin-bottom: 15px;">➕ افزایش رضایت مردم</div>
-        <button onclick="buyBuilding('hospital')" id="hospitalBtn" style="background: #16a34a;">ساخت (۵۰ طلا)</button>
-    </div>
-
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 20px;">⛏ معدن</span>
-            <span style="color: #fbbf24;" id="mineLevel">0/5</span>
-        </div>
-        <div style="color: #94a3b8; margin-bottom: 15px;">➕ تولید طلا</div>
-        <button onclick="buyBuilding('mine')" id="mineBtn" style="background: #16a34a;">ساخت (۴۰ طلا)</button>
-    </div>
-
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 20px;">🛢 پالایشگاه</span>
-            <span style="color: #fbbf24;" id="refineryLevel">0/5</span>
-        </div>
-        <div style="color: #94a3b8; margin-bottom: 15px;">➕ تولید نفت</div>
-        <button onclick="buyBuilding('refinery')" id="refineryBtn" style="background: #16a34a;">ساخت (۴۰ طلا)</button>
-    </div>
-
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 20px;">🌾 مزرعه</span>
-            <span style="color: #fbbf24;" id="farmLevel">0/5</span>
-        </div>
-        <div style="color: #94a3b8; margin-bottom: 15px;">➕ تولید غذا</div>
-        <button onclick="buyBuilding('farm')" id="farmBtn" style="background: #16a34a;">ساخت (۳۰ طلا)</button>
-    </div>
-
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 20px;">🏭 کارخانه نظامی</span>
-            <span style="color: #fbbf24;" id="militaryFactoryLevel">0/5</span>
-        </div>
-        <div style="color: #94a3b8; margin-bottom: 15px;">➕ افزایش قدرت نظامی</div>
-        <button onclick="buyBuilding('militaryFactory')" id="militaryBtn" style="background: #16a34a;">ساخت (۶۰ طلا)</button>
-    </div>
-</div>
-
-<script>
-function buyBuilding(type) {
-    let costs = { 
-        hospital: 50, mine: 40, refinery: 40, farm: 30, militaryFactory: 60
-    };
-    
-    if(geoWarSave.buildings[type] >= 5) {
-        alert("حداکثر ۵ تا میتونی بسازی!");
-        return;
-    }
-    
-    if(geoWarSave.resources.gold < costs[type]) {
-        alert("طلا کافی نیست!");
-        return;
-    }
-    
-    geoWarSave.resources.gold -= costs[type];
-    geoWarSave.buildings[type]++;
-    
-    saveGame();
-    updateUI();
-    alert(`✅ ${type} ساخته شد!`);
-}
-</script>
