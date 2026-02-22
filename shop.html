@@ -1,73 +1,531 @@
 <div style="padding: 20px;">
-    <h2 style="color: #60a5fa; margin-bottom: 30px;">🏪 فروشگاه ساختمان</h2>
+    <h2 style="color: #60a5fa; margin-bottom: 30px; text-align: center;">🏪 فروشگاه تجهیزات</h2>
     
-    <div class="build-item">
-        <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 18px;">🏥 بیمارستان</span>
-            <span class="build-level" id="hospitalLevel">0/5</span>
+    <!-- بخش 1: تجهیزات درآمدزا -->
+    <div class="shop-category">
+        <div class="category-title">
+            <span class="emoji">💰</span>
+            <span>تجهیزات درآمدزا</span>
         </div>
-        <div class="small-note">➕ افزایش رضایت مردم</div>
-        <button onclick="buyBuilding('hospital')" id="hospitalBtn">ساخت (۵۰ طلا)</button>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">⛏ معدن</span>
+                    <span class="shop-item-level" id="mineLevel">0</span>
+                </div>
+                <div class="shop-item-desc">تولید طلا +۵ در هر دوره</div>
+                <div class="shop-item-price">💰 ۴۰ طلا</div>
+                <button onclick="buyBuilding('mine')" id="mineBtn">ساخت</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🌾 مزرعه</span>
+                    <span class="shop-item-level" id="farmLevel">0</span>
+                </div>
+                <div class="shop-item-desc">تولید غذا +۱۰ در هر دوره</div>
+                <div class="shop-item-price">💰 ۳۰ طلا</div>
+                <button onclick="buyBuilding('farm')" id="farmBtn">ساخت</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🛢 پالایشگاه</span>
+                    <span class="shop-item-level" id="refineryLevel">0</span>
+                </div>
+                <div class="shop-item-desc">تولید نفت +۸ در هر دوره</div>
+                <div class="shop-item-price">💰 ۵۰ طلا</div>
+                <button onclick="buyBuilding('refinery')" id="refineryBtn">ساخت</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🏪 بازارچه</span>
+                    <span class="shop-item-level" id="marketLevel">0</span>
+                </div>
+                <div class="shop-item-desc">افزایش قیمت فروش نفت +۱۰٪</div>
+                <div class="shop-item-price">💰 ۶۰ طلا</div>
+                <button onclick="buyBuilding('market')" id="marketBtn">ساخت</button>
+            </div>
+        </div>
     </div>
-
-    <div class="build-item">
-        <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 18px;">⛏ معدن</span>
-            <span class="build-level" id="mineLevel">0/5</span>
+    
+    <!-- بخش 2: سرباز و پلیس -->
+    <div class="shop-category">
+        <div class="category-title">
+            <span class="emoji">👮</span>
+            <span>نیروی نظامی و انتظامی</span>
         </div>
-        <div class="small-note">➕ تولید طلا</div>
-        <button onclick="buyBuilding('mine')" id="mineBtn">ساخت (۴۰ طلا)</button>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🔫 سرباز</span>
+                    <span class="shop-item-level" id="soldierLevel">0</span>
+                </div>
+                <div class="shop-item-desc">قدرت نظامی +۱۰ | رضایت -۱</div>
+                <div class="shop-item-price">💰 ۲۵ طلا</div>
+                <button onclick="buyBuilding('soldier')" id="soldierBtn">استخدام</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">👮 پلیس</span>
+                    <span class="shop-item-level" id="policeLevel">0</span>
+                </div>
+                <div class="shop-item-desc">رضایت +۵ | قدرت نظامی +۵</div>
+                <div class="shop-item-price">💰 ۳۰ طلا</div>
+                <button onclick="buyBuilding('police')" id="policeBtn">استخدام</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🚜 تانک</span>
+                    <span class="shop-item-level" id="tankLevel">0</span>
+                </div>
+                <div class="shop-item-desc">قدرت نظامی +۲۵ | رضایت -۳</div>
+                <div class="shop-item-price">💰 ۸۰ طلا</div>
+                <button onclick="buyBuilding('tank')" id="tankBtn">خرید</button>
+            </div>
+        </div>
     </div>
-
-    <div class="build-item">
-        <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 18px;">🛢 پالایشگاه</span>
-            <span class="build-level" id="refineryLevel">0/5</span>
+    
+    <!-- بخش 3: جنگنده ها -->
+    <div class="shop-category">
+        <div class="category-title">
+            <span class="emoji">✈️</span>
+            <span>نیروی هوایی</span>
         </div>
-        <div class="small-note">➕ تولید نفت</div>
-        <button onclick="buyBuilding('refinery')" id="refineryBtn">ساخت (۴۰ طلا)</button>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🛩 جنگنده</span>
+                    <span class="shop-item-level" id="fighterJetLevel">0</span>
+                </div>
+                <div class="shop-item-desc">قدرت نظامی +۲۰ | موفقیت حمله +۵٪</div>
+                <div class="shop-item-price">💰 ۱۰۰ طلا + ۵ نفت</div>
+                <button onclick="buyBuilding('fighterJet')" id="fighterJetBtn">خرید</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">💣 بمب‌افکن</span>
+                    <span class="shop-item-level" id="bomberLevel">0</span>
+                </div>
+                <div class="shop-item-desc">قدرت نظامی +۳۵ | موفقیت حمله +۱۰٪</div>
+                <div class="shop-item-price">💰 ۱۵۰ طلا + ۱۰ نفت</div>
+                <button onclick="buyBuilding('bomber')" id="bomberBtn">خرید</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🚁 پهپاد</span>
+                    <span class="shop-item-level" id="droneLevel">0</span>
+                </div>
+                <div class="shop-item-desc">کشف اطلاعات دشمن | قدرت +۱۵</div>
+                <div class="shop-item-price">💰 ۷۰ طلا + ۳ نفت</div>
+                <button onclick="buyBuilding('drone')" id="droneBtn">خرید</button>
+            </div>
+        </div>
     </div>
-
-    <div class="build-item">
-        <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 18px;">🌾 مزرعه</span>
-            <span class="build-level" id="farmLevel">0/5</span>
+    
+    <!-- بخش 4: حفاظت رئیس جمهور -->
+    <div class="shop-category">
+        <div class="category-title">
+            <span class="emoji">🛡️</span>
+            <span>حفاظت رئیس جمهور</span>
         </div>
-        <div class="small-note">➕ تولید غذا</div>
-        <button onclick="buyBuilding('farm')" id="farmBtn">ساخت (۳۰ طلا)</button>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🕴 محافظ</span>
+                    <span class="shop-item-level" id="bodyguardLevel">0</span>
+                </div>
+                <div class="shop-item-desc">کاهش تلفات در شکست -۲۰٪ | رضایت +۲</div>
+                <div class="shop-item-price">💰 ۴۰ طلا</div>
+                <button onclick="buyBuilding('bodyguard')" id="bodyguardBtn">استخدام</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🏠 خانه امن</span>
+                    <span class="shop-item-level" id="safeHouseLevel">0</span>
+                </div>
+                <div class="shop-item-desc">محافظت در برابر ترور | رضایت +۳</div>
+                <div class="shop-item-price">💰 ۶۰ طلا</div>
+                <button onclick="buyBuilding('safeHouse')" id="safeHouseBtn">ساخت</button>
+            </div>
+            
+            <div class="shop-item">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🏛 پناهگاه</span>
+                    <span class="shop-item-level" id="bunkerLevel">0</span>
+                </div>
+                <div class="shop-item-desc">کاهش تلفات انقلاب -۵۰٪</div>
+                <div class="shop-item-price">💰 ۱۲۰ طلا</div>
+                <button onclick="buyBuilding('bunker')" id="bunkerBtn">ساخت</button>
+            </div>
+        </div>
     </div>
-
-    <div class="build-item">
-        <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 18px;">🏭 کارخانه نظامی</span>
-            <span class="build-level" id="militaryFactoryLevel">0/5</span>
-        </div>
-        <div class="small-note">➕ افزایش قدرت</div>
-        <button onclick="buyBuilding('militaryFactory')" id="militaryBtn">ساخت (۶۰ طلا)</button>
+    
+    <hr style="margin: 20px 0;">
+    
+    <div style="text-align: center; color: #94a3b8; font-size: 12px;">
+        هر آیتم قابلیت ارتقا تا سطح ۵ را دارد
     </div>
 </div>
 
 <script>
+// تابع خرید ساختمان
 function buyBuilding(type) {
-    let costs = { 
-        hospital: 50, mine: 40, refinery: 40, farm: 30, militaryFactory: 60
+    // قیمت‌ها
+    let costs = {
+        // تجهیزات درآمدزا
+        mine: 40,
+        farm: 30,
+        refinery: 50,
+        market: 60,
+        // سرباز و پلیس
+        soldier: 25,
+        police: 30,
+        tank: 80,
+        // جنگنده ها
+        fighterJet: 100,
+        bomber: 150,
+        drone: 70,
+        // حفاظت
+        bodyguard: 40,
+        safeHouse: 60,
+        bunker: 120
     };
     
+    // بررسی وجود type در ساختمان‌ها
+    if(!geoWarSave.buildings.hasOwnProperty(type)) {
+        geoWarSave.buildings[type] = 0;
+    }
+    
+    // بررسی حداکثر سطح
     if(geoWarSave.buildings[type] >= 5) {
-        alert("حداکثر ۵ تا میتونی بسازی!");
+        alert("⚠️ این آیتم به حداکثر سطح (۵) رسیده است!");
         return;
     }
     
+    // بررسی هزینه طلا
     if(geoWarSave.resources.gold < costs[type]) {
-        alert("طلا کافی نیست!");
+        alert(`💰 طلا کافی نیست! نیاز: ${costs[type]} طلا`);
         return;
     }
     
+    // بررسی هزینه نفت برای جنگنده‌ها
+    if(type === 'fighterJet' && geoWarSave.resources.oil < 5) {
+        alert("🛢 نفت کافی نیست! نیاز: ۵ نفت");
+        return;
+    }
+    if(type === 'bomber' && geoWarSave.resources.oil < 10) {
+        alert("🛢 نفت کافی نیست! نیاز: ۱۰ نفت");
+        return;
+    }
+    if(type === 'drone' && geoWarSave.resources.oil < 3) {
+        alert("🛢 نفت کافی نیست! نیاز: ۳ نفت");
+        return;
+    }
+    
+    // پرداخت هزینه
     geoWarSave.resources.gold -= costs[type];
+    
+    // پرداخت هزینه نفت برای جنگنده‌ها
+    if(type === 'fighterJet') geoWarSave.resources.oil -= 5;
+    if(type === 'bomber') geoWarSave.resources.oil -= 10;
+    if(type === 'drone') geoWarSave.resources.oil -= 3;
+    
+    // افزایش سطح
     geoWarSave.buildings[type]++;
     
+    // اعمال اثرات
+    applyBuildingEffects(type);
+    
+    // ذخیره و بروزرسانی
     saveGame();
     updateUI();
-    alert(`✅ ${type} ساخته شد!`);
+    updateShopUI();
+    
+    alert(`✅ ${getBuildingName(type)} با موفقیت ساخته شد! (سطح ${geoWarSave.buildings[type]})`);
 }
+
+// تابع اعمال اثرات ساختمان
+function applyBuildingEffects(type) {
+    switch(type) {
+        // تجهیزات درآمدزا (اثر در تولید خودکار اعمال میشه)
+        case 'mine':
+        case 'farm':
+        case 'refinery':
+        case 'market':
+            break;
+            
+        // سرباز و پلیس
+        case 'soldier':
+            geoWarSave.playerPower += 10;
+            geoWarSave.stability = Math.max(0, geoWarSave.stability - 1);
+            break;
+        case 'police':
+            geoWarSave.playerPower += 5;
+            geoWarSave.stability = Math.min(100, geoWarSave.stability + 5);
+            break;
+        case 'tank':
+            geoWarSave.playerPower += 25;
+            geoWarSave.stability = Math.max(0, geoWarSave.stability - 3);
+            break;
+            
+        // جنگنده ها
+        case 'fighterJet':
+            geoWarSave.playerPower += 20;
+            break;
+        case 'bomber':
+            geoWarSave.playerPower += 35;
+            break;
+        case 'drone':
+            geoWarSave.playerPower += 15;
+            break;
+            
+        // حفاظت
+        case 'bodyguard':
+            geoWarSave.stability = Math.min(100, geoWarSave.stability + 2);
+            break;
+        case 'safeHouse':
+            geoWarSave.stability = Math.min(100, geoWarSave.stability + 3);
+            break;
+        case 'bunker':
+            // اثر در زمان انقلاب اعمال میشه
+            break;
+    }
+    
+    // اعمال سقف قدرت
+    let powerCap = 300 + (geoWarSave.technology.military - 1) * 200;
+    geoWarSave.playerPower = Math.min(powerCap, geoWarSave.playerPower);
+}
+
+// تابع دریافت نام فارسی آیتم
+function getBuildingName(type) {
+    const names = {
+        mine: '⛏ معدن',
+        farm: '🌾 مزرعه',
+        refinery: '🛢 پالایشگاه',
+        market: '🏪 بازارچه',
+        soldier: '🔫 سرباز',
+        police: '👮 پلیس',
+        tank: '🚜 تانک',
+        fighterJet: '🛩 جنگنده',
+        bomber: '💣 بمب‌افکن',
+        drone: '🚁 پهپاد',
+        bodyguard: '🕴 محافظ',
+        safeHouse: '🏠 خانه امن',
+        bunker: '🏛 پناهگاه'
+    };
+    return names[type] || type;
+}
+
+// تابع بروزرسانی UI فروشگاه
+function updateShopUI() {
+    // بروزرسانی سطوح
+    document.getElementById('mineLevel').innerText = geoWarSave.buildings.mine || 0;
+    document.getElementById('farmLevel').innerText = geoWarSave.buildings.farm || 0;
+    document.getElementById('refineryLevel').innerText = geoWarSave.buildings.refinery || 0;
+    document.getElementById('marketLevel').innerText = geoWarSave.buildings.market || 0;
+    
+    document.getElementById('soldierLevel').innerText = geoWarSave.buildings.soldier || 0;
+    document.getElementById('policeLevel').innerText = geoWarSave.buildings.police || 0;
+    document.getElementById('tankLevel').innerText = geoWarSave.buildings.tank || 0;
+    
+    document.getElementById('fighterJetLevel').innerText = geoWarSave.buildings.fighterJet || 0;
+    document.getElementById('bomberLevel').innerText = geoWarSave.buildings.bomber || 0;
+    document.getElementById('droneLevel').innerText = geoWarSave.buildings.drone || 0;
+    
+    document.getElementById('bodyguardLevel').innerText = geoWarSave.buildings.bodyguard || 0;
+    document.getElementById('safeHouseLevel').innerText = geoWarSave.buildings.safeHouse || 0;
+    document.getElementById('bunkerLevel').innerText = geoWarSave.buildings.bunker || 0;
+    
+    // غیرفعال کردن دکمه‌های سطح ۵
+    document.getElementById('mineBtn').disabled = (geoWarSave.buildings.mine || 0) >= 5 || geoWarSave.resources.gold < 40;
+    document.getElementById('farmBtn').disabled = (geoWarSave.buildings.farm || 0) >= 5 || geoWarSave.resources.gold < 30;
+    document.getElementById('refineryBtn').disabled = (geoWarSave.buildings.refinery || 0) >= 5 || geoWarSave.resources.gold < 50;
+    document.getElementById('marketBtn').disabled = (geoWarSave.buildings.market || 0) >= 5 || geoWarSave.resources.gold < 60;
+    
+    document.getElementById('soldierBtn').disabled = (geoWarSave.buildings.soldier || 0) >= 5 || geoWarSave.resources.gold < 25;
+    document.getElementById('policeBtn').disabled = (geoWarSave.buildings.police || 0) >= 5 || geoWarSave.resources.gold < 30;
+    document.getElementById('tankBtn').disabled = (geoWarSave.buildings.tank || 0) >= 5 || geoWarSave.resources.gold < 80;
+    
+    document.getElementById('fighterJetBtn').disabled = (geoWarSave.buildings.fighterJet || 0) >= 5 || geoWarSave.resources.gold < 100 || geoWarSave.resources.oil < 5;
+    document.getElementById('bomberBtn').disabled = (geoWarSave.buildings.bomber || 0) >= 5 || geoWarSave.resources.gold < 150 || geoWarSave.resources.oil < 10;
+    document.getElementById('droneBtn').disabled = (geoWarSave.buildings.drone || 0) >= 5 || geoWarSave.resources.gold < 70 || geoWarSave.resources.oil < 3;
+    
+    document.getElementById('bodyguardBtn').disabled = (geoWarSave.buildings.bodyguard || 0) >= 5 || geoWarSave.resources.gold < 40;
+    document.getElementById('safeHouseBtn').disabled = (geoWarSave.buildings.safeHouse || 0) >= 5 || geoWarSave.resources.gold < 60;
+    document.getElementById('bunkerBtn').disabled = (geoWarSave.buildings.bunker || 0) >= 5 || geoWarSave.resources.gold < 120;
+}
+
+// اضافه کردن افکت ساختمان‌ها به تولید خودکار (این تابع در کد اصلی باید فراخوانی بشه)
+function getProductionBonus() {
+    let bonus = {
+        gold: 1 + (geoWarSave.buildings.mine || 0) * 0.5,
+        food: 1 + (geoWarSave.buildings.farm || 0) * 0.5,
+        oil: 1 + (geoWarSave.buildings.refinery || 0) * 0.5,
+        price: 1 + (geoWarSave.buildings.market || 0) * 0.1
+    };
+    return bonus;
+}
+
+// اضافه کردن افکت محافظت در حمله
+function getDefenseBonus() {
+    let reduction = 1 - ((geoWarSave.buildings.bodyguard || 0) * 0.04); // هر محافظ ۴٪ کاهش تلفات
+    return Math.max(0.5, reduction); // حداکثر ۵۰٪ کاهش
+}
+
+// اضافه کردن افکت پناهگاه در انقلاب
+function getRevolutionProtection() {
+    let protection = (geoWarSave.buildings.bunker || 0) * 0.1; // هر پناهگاه ۱۰٪ محافظت
+    return Math.min(0.5, protection); // حداکثر ۵۰٪
+}
+
+// بروزرسانی اولیه
+updateShopUI();
+
+// هر ۵ ثانیه یکبار بروزرسانی خودکار (برای غیرفعال شدن دکمه‌ها)
+setInterval(updateShopUI, 5000);
 </script>
+
+<style>
+/* استایل مخصوص فروشگاه */
+.shop-category {
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.category-title {
+    font-size: 20px;
+    color: #fbbf24;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3b82f6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-title .emoji {
+    font-size: 24px;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.shop-item {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.shop-item:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.shop-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: #2563eb;
+}
+
+.shop-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.shop-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.shop-item-level {
+    color: #fbbf24;
+    font-size: 14px;
+    font-weight: bold;
+    background: #0f172a;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.shop-item-desc {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 8px 0;
+    min-height: 35px;
+    line-height: 1.5;
+}
+
+.shop-item-price {
+    background: #0f172a;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    color: #4ade80;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #334155;
+}
+
+.shop-item button {
+    background: #2563eb;
+    margin-top: 5px;
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.shop-item button:hover:not(:disabled) {
+    background: #3b82f6;
+    transform: scale(1.02);
+}
+
+.shop-item button:disabled {
+    background: #4b5563;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* استایل برای موبایل */
+@media (max-width: 768px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        padding: 15px;
+    }
+}
+</style>
