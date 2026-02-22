@@ -1,0 +1,66 @@
+<div style="padding: 20px;">
+    <h2 style="color: #4ade80; margin-bottom: 30px;">🔬 درخت تکنولوژی</h2>
+    
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-size: 18px;">⚔ سطح نظامی</span>
+            <span style="color: #fbbf24; font-size: 20px;" id="milTechLevel">1/5</span>
+        </div>
+        <div style="color: #94a3b8; margin-bottom: 15px;">سقف قدرت: <span id="powerCap">300</span></div>
+        <button onclick="upgradeTech('military')" id="milTechBtn" style="background: #2563eb;">ارتقا (۲۰۰ طلا)</button>
+    </div>
+
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-size: 18px;">🛢 تکنولوژی نفت</span>
+            <span style="color: #fbbf24; font-size: 20px;" id="oilTechLevel">1/5</span>
+        </div>
+        <div style="color: #94a3b8; margin-bottom: 15px;">تولید نفت +۲۰٪ در هر سطح</div>
+        <button onclick="upgradeTech('oil')" id="oilTechBtn" style="background: #2563eb;">ارتقا (۱۵۰ طلا)</button>
+    </div>
+
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-size: 18px;">🌾 تکنولوژی کشاورزی</span>
+            <span style="color: #fbbf24; font-size: 20px;" id="farmTechLevel">1/5</span>
+        </div>
+        <div style="color: #94a3b8; margin-bottom: 15px;">تولید غذا +۲۰٪ در هر سطح</div>
+        <button onclick="upgradeTech('farm')" id="farmTechBtn" style="background: #2563eb;">ارتقا (۱۵۰ طلا)</button>
+    </div>
+
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-size: 18px;">🏭 تکنولوژی صنعتی</span>
+            <span style="color: #fbbf24; font-size: 20px;" id="indTechLevel">1/5</span>
+        </div>
+        <div style="color: #94a3b8; margin-bottom: 15px;">تولید طلا +۲۰٪ در هر سطح</div>
+        <button onclick="upgradeTech('industry')" id="indTechBtn" style="background: #2563eb;">ارتقا (۲۰۰ طلا)</button>
+    </div>
+</div>
+
+<script>
+function upgradeTech(type) {
+    let costs = { military: 200, oil: 150, farm: 150, industry: 200 };
+    
+    if(geoWarSave.technology[type] >= 5) {
+        alert("حداکثر سطح!");
+        return;
+    }
+    
+    if(geoWarSave.resources.gold < costs[type]) {
+        alert("طلا کافی نیست!");
+        return;
+    }
+    
+    geoWarSave.resources.gold -= costs[type];
+    geoWarSave.technology[type]++;
+    
+    if(type === 'military') {
+        geoWarSave.playerPower += 50;
+    }
+    
+    saveGame();
+    updateUI();
+    alert(`✅ تکنولوژی ${type} ارتقا یافت!`);
+}
+</script>
