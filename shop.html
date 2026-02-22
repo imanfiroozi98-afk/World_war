@@ -1,0 +1,73 @@
+<div style="padding: 20px;">
+    <h2 style="color: #60a5fa; margin-bottom: 30px;">🏪 فروشگاه ساختمان</h2>
+    
+    <div class="build-item">
+        <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 18px;">🏥 بیمارستان</span>
+            <span class="build-level" id="hospitalLevel">0/5</span>
+        </div>
+        <div class="small-note">➕ افزایش رضایت مردم</div>
+        <button onclick="buyBuilding('hospital')" id="hospitalBtn">ساخت (۵۰ طلا)</button>
+    </div>
+
+    <div class="build-item">
+        <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 18px;">⛏ معدن</span>
+            <span class="build-level" id="mineLevel">0/5</span>
+        </div>
+        <div class="small-note">➕ تولید طلا</div>
+        <button onclick="buyBuilding('mine')" id="mineBtn">ساخت (۴۰ طلا)</button>
+    </div>
+
+    <div class="build-item">
+        <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 18px;">🛢 پالایشگاه</span>
+            <span class="build-level" id="refineryLevel">0/5</span>
+        </div>
+        <div class="small-note">➕ تولید نفت</div>
+        <button onclick="buyBuilding('refinery')" id="refineryBtn">ساخت (۴۰ طلا)</button>
+    </div>
+
+    <div class="build-item">
+        <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 18px;">🌾 مزرعه</span>
+            <span class="build-level" id="farmLevel">0/5</span>
+        </div>
+        <div class="small-note">➕ تولید غذا</div>
+        <button onclick="buyBuilding('farm')" id="farmBtn">ساخت (۳۰ طلا)</button>
+    </div>
+
+    <div class="build-item">
+        <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 18px;">🏭 کارخانه نظامی</span>
+            <span class="build-level" id="militaryFactoryLevel">0/5</span>
+        </div>
+        <div class="small-note">➕ افزایش قدرت</div>
+        <button onclick="buyBuilding('militaryFactory')" id="militaryBtn">ساخت (۶۰ طلا)</button>
+    </div>
+</div>
+
+<script>
+function buyBuilding(type) {
+    let costs = { 
+        hospital: 50, mine: 40, refinery: 40, farm: 30, militaryFactory: 60
+    };
+    
+    if(geoWarSave.buildings[type] >= 5) {
+        alert("حداکثر ۵ تا میتونی بسازی!");
+        return;
+    }
+    
+    if(geoWarSave.resources.gold < costs[type]) {
+        alert("طلا کافی نیست!");
+        return;
+    }
+    
+    geoWarSave.resources.gold -= costs[type];
+    geoWarSave.buildings[type]++;
+    
+    saveGame();
+    updateUI();
+    alert(`✅ ${type} ساخته شد!`);
+}
+</script>
