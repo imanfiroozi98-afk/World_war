@@ -1,0 +1,83 @@
+<div style="display:flex; gap:20px;">
+    <div style="flex:2;">
+        <div style="color:#64ffda; font-weight:bold; margin-bottom:10px;">💬 گفتگوی تحریم</div>
+        <div id="sanctionsChat" style="height:300px; overflow-y:auto; background:rgba(0,0,0,0.3); border-radius:16px; padding:10px; margin-bottom:10px;"></div>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="sanctionsChatInput" placeholder="پیام..." style="flex:1; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px 16px;">
+            <button onclick="sendSanctionsChat()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px 20px; cursor:pointer;">ارسال</button>
+        </div>
+    </div>
+    <div style="flex:1; background:rgba(20,30,50,0.6); border-radius:24px; padding:15px;">
+        <div style="color:#64ffda; font-weight:bold; margin-bottom:10px;">🗳️ رأی‌گیری تحریم</div>
+        <div id="sanctionDisplay" style="background:#1e293b; border-radius:16px; padding:10px; margin:10px 0; min-height:60px;">${window.sanctionsData?.text || 'هیچ تحریم فعالی وجود ندارد'}</div>
+        <button onclick="vote('yes')" style="background:#16a34a; border:none; border-radius:40px; padding:8px; width:100%; margin-bottom:5px; cursor:pointer;">👍 YES</button>
+        <button onclick="vote('no')" style="background:#b91c1c; border:none; border-radius:40px; padding:8px; width:100%; margin-bottom:5px; cursor:pointer;">👎 NO</button>
+        <button onclick="refreshSanction()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px; width:100%; cursor:pointer;">🔄 بروزرسانی</button>
+        <div style="margin-top:15px;">
+            <button onclick="showVoteResults()" style="background:#6b7280; border:none; border-radius:40px; padding:8px; width:100%; cursor:pointer;">📊 نمایش نتایج</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// داده‌های تحریم (محلی)
+let sanctionsData = window.sanctionsData || { text: null, votes: { yes: 0, no: 0 }, votedUsers: new Set() };
+window.sanctionsData = sanctionsData; // برای اشتراک بین تب‌ها
+
+function sendSanctionsChat() {
+    let input = document.getElementById('sanctionsChatInput');
+    let msg = input.value.trim();
+    if (!msg) return;
+    let chatDiv = document.getElementById('sanctionsChat');
+    chatDiv.innerHTML += `<div><b>${window.currentUser}:</b> ${msg}</div>`;
+    input.value = '';
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+}
+
+function publishSanction() {
+    let text = document.getElementById('sanctionText')?.value;
+    if (!text) return alert('متن تحریم را وارد کنید');
+    sanctionsData.text = text;
+    sanctionsData.votes = { yes:0, no:0 };
+    sanctionsData.votedUsers.clear();
+    alert(`تحریم "${text}" منتشر شد`);
+    let display = document.getElementById('sanctionDisplay');
+    if (display) display.innerText = text;
+}
+
+function vote(choice) {
+    if (sanctionsData.votedUsers.has(window.currentUser)) {
+        return alert('شما قبلاً رأی داده‌اید');
+    }
+    sanctionsData.votes[choice]++;
+    sanctionsData.votedUsers.add(window.currentUser);
+    alert(`رأی شما (${choice}) ثبت شد`);
+}
+
+function showVoteResults() {
+    alert(`✅ YES: ${sanctionsData.votes.yes}\n❌ NO: ${sanctionsData.votes.no}`);
+}
+
+function refreshSanction() {
+    let display = document.getElementById('sanctionDisplay');
+    if (display) display.innerText = sanctionsData.text || 'هیچ تحریم فعالی وجود ندارد';
+}
+
+// اگه ادمین باشیم، یه فیلد اضافه کنیم
+if (window.currentUser === 'yashar') {
+    let container = document.querySelector('#tabContentSanctions .flex-1');
+    if (container) {
+        let input = document.createElement('input');
+        input.id = 'sanctionText';
+        input.type = 'text';
+        input.placeholder = 'متن تحریم...';
+        input.style = 'width:100%; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px; margin:10px 0;';
+        let btn = document.createElement('button');
+        btn.innerText = '🪧 انتشار تحریم';
+        btn.onclick = publishSanction;
+        btn.style = 'background:#3b82f6; border:none; border-radius:40px; padding:8px; width:100%; margin-bottom:10px; cursor:pointer;';
+        container.insertBefore(btn, container.firstChild);
+        container.insertBefore(input, btn);
+    }
+}
+</script>

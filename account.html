@@ -1,0 +1,115 @@
+<div id="accountContent"></div>
+
+<script>
+let registeredUser = null;
+try {
+    let saved = localStorage.getItem('registeredUser');
+    if (saved) registeredUser = JSON.parse(saved);
+} catch(e) {}
+
+function renderAccount() {
+    let container = document.getElementById('accountContent');
+    if (registeredUser) {
+        container.innerHTML = `
+            <div style="text-align:center;">
+                <h3 style="color:#64ffda;">🏆 پنل کاربری ${registeredUser.username}</h3>
+                <div style="background:rgba(0,0,0,0.3); border-radius:20px; padding:20px; margin-top:20px;">
+                    <p><strong>نام کاربری:</strong> ${registeredUser.username}</p>
+                    <p><strong>شماره:</strong> ${registeredUser.phone}</p>
+                    <p><strong>ایمیل:</strong> ${registeredUser.email}</p>
+                </div>
+                <div style="margin-top:30px; background:#1e293b; border-radius:20px; padding:20px;">
+                    <canvas id="accountCanvas" width="500" height="300" style="background:#292B3D; border-radius:16px; width:100%; height:auto;"></canvas>
+                </div>
+            </div>
+        `;
+        drawAccountCanvas();
+    } else {
+        container.innerHTML = `
+            <div style="max-width:400px; margin:0 auto;">
+                <h3 style="color:#64ffda; text-align:center;">ایجاد حساب کاربری</h3>
+                <div style="margin:15px 0;">
+                    <label>نام کاربری (حداقل ۳ کاراکتر):</label>
+                    <input type="text" id="regUsername" style="width:100%; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px; margin-top:5px;">
+                    <div id="usernameStatus" style="font-size:12px; margin-top:3px;">---</div>
+                </div>
+                <div style="margin:15px 0;">
+                    <label>شماره (۱۱ رقم، شروع با ۰۹):</label>
+                    <input type="text" id="regPhone" style="width:100%; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px; margin-top:5px;">
+                    <div id="phoneStatus" style="font-size:12px; margin-top:3px;">---</div>
+                </div>
+                <div style="margin:15px 0;">
+                    <label>ایمیل:</label>
+                    <input type="email" id="regEmail" style="width:100%; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px; margin-top:5px;">
+                    <div id="emailStatus" style="font-size:12px; margin-top:3px;">---</div>
+                </div>
+                <button id="registerBtn" onclick="handleRegistration()" disabled style="background:#7f8c8d; border:none; border-radius:40px; padding:10px; width:100%; margin-top:20px; color:white;">ورود به پنل 🚀</button>
+            </div>
+        `;
+        document.getElementById('regUsername').addEventListener('input', checkRegistrationFields);
+        document.getElementById('regPhone').addEventListener('input', checkRegistrationFields);
+        document.getElementById('regEmail').addEventListener('input', checkRegistrationFields);
+    }
+}
+
+function isValidName(name) {
+    return name.length >= 3 && /^[a-zA-Z0-9_]+$/.test(name);
+}
+function isValidPhone(phone) {
+    return /^09\d{9}$/.test(phone);
+}
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function checkRegistrationFields() {
+    let username = document.getElementById('regUsername').value;
+    let phone = document.getElementById('regPhone').value;
+    let email = document.getElementById('regEmail').value;
+    
+    let nameValid = isValidName(username);
+    let phoneValid = isValidPhone(phone);
+    let emailValid = isValidEmail(email);
+    
+    document.getElementById('usernameStatus').innerHTML = nameValid ? '✅ معتبر' : '❌ نامعتبر';
+    document.getElementById('usernameStatus').style.color = nameValid ? '#2ecc71' : '#e74c3c';
+    document.getElementById('phoneStatus').innerHTML = phoneValid ? '✅ معتبر' : '❌ نامعتبر';
+    document.getElementById('phoneStatus').style.color = phoneValid ? '#2ecc71' : '#e74c3c';
+    document.getElementById('emailStatus').innerHTML = emailValid ? '✅ معتبر' : '❌ نامعتبر';
+    document.getElementById('emailStatus').style.color = emailValid ? '#2ecc71' : '#e74c3c';
+    
+    document.getElementById('registerBtn').disabled = !(nameValid && phoneValid && emailValid);
+    document.getElementById('registerBtn').style.background = (nameValid && phoneValid && emailValid) ? '#27ae60' : '#7f8c8d';
+}
+
+function handleRegistration() {
+    let username = document.getElementById('regUsername').value;
+    let phone = document.getElementById('regPhone').value;
+    let email = document.getElementById('regEmail').value;
+    
+    registeredUser = { username, phone, email };
+    localStorage.setItem('registeredUser', JSON.stringify(registeredUser));
+    renderAccount(); // رندر مجدد
+}
+
+function drawAccountCanvas() {
+    let canvas = document.getElementById('accountCanvas');
+    if (!canvas) return;
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#292B3D';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let colors = ['#FF0000', '#FFFF00', '#00FF00', '#0000FF', '#FF00FF', '#00FFFF'];
+    for (let i = 0; i < 6; i++) {
+        let x = 250 + 100 * (i % 2);
+        let y = 150 + 50 * Math.floor(i / 2);
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, 2 * Math.PI);
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+    }
+}
+
+// اجرای اولیه
+renderAccount();
+</script>

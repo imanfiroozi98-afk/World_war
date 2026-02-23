@@ -1,0 +1,67 @@
+<div style="display:flex; gap:20px; height:100%;">
+    <div style="flex:2; display:flex; flex-direction:column;">
+        <div style="color:#64ffda; font-weight:bold; margin-bottom:10px;">💬 کانال دیپلماتیک</div>
+        <div id="unChatMessages" style="flex:1; overflow-y:auto; background:rgba(0,0,0,0.3); border-radius:16px; padding:10px; font-size:13px; margin-bottom:10px;"></div>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="unChatInput" placeholder="پیام به نمایندگان..." style="flex:1; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px 16px; color:white;">
+            <button onclick="sendUnChat()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px 20px; color:white; cursor:pointer;">ارسال</button>
+        </div>
+    </div>
+    <div style="flex:1; background:rgba(20,30,50,0.6); border-radius:24px; padding:15px;">
+        <div style="color:#64ffda; font-weight:bold; margin-bottom:10px;">🌍 کشورهای عضو</div>
+        <div id="unCountriesList" style="overflow-y:auto; max-height:400px;"></div>
+    </div>
+</div>
+
+<script>
+// تابع به‌روزرسانی لیست کشورها (با استفاده از serverState.globalOwnership و countriesGeo)
+function refreshUnCountriesList() {
+    let listDiv = document.getElementById('unCountriesList');
+    if (!listDiv) return;
+    let html = '';
+    // از متغیر سراسری countriesGeo استفاده می‌کنیم (که در index.html تعریف شده)
+    let sortedCountries = Object.keys(window.countriesGeo || {}).sort((a,b)=>a.localeCompare(b));
+    for (let country of sortedCountries) {
+        let owner = window.serverState?.globalOwnership[country] || null;
+        let ownerName = owner ? owner : 'آزاد';
+        let online = owner && Object.values(window.serverState?.onlinePlayers || {}).some(p => p.name === owner && p.online);
+        let statusClass = online ? 'online-status' : 'offline-status';
+        let onclick = owner && online ? `openPrivateChat('${owner}')` : '';
+        html += `<div class="country-item" ${onclick ? 'onclick="' + onclick + '"' : ''} style="display:flex; align-items:center; gap:8px; padding:8px; border-radius:30px; cursor:pointer; margin-bottom:4px; border:1px solid transparent;">
+            <span class="country-status ${statusClass}" style="width:8px; height:8px; border-radius:50%; background:${online ? '#22c55e' : '#6b7280'}; box-shadow:${online ? '0 0 8px #22c55e' : 'none'};"></span>
+            <span style="flex:1;">${country}</span>
+            <span style="color:#fbbf24; font-size:11px;">(${ownerName})</span>
+        </div>`;
+    }
+    listDiv.innerHTML = html;
+}
+
+// تابع ارسال پیام به چت عمومی (از طریق socket)
+function sendUnChat() {
+    let input = document.getElementById('unChatInput');
+    let msg = input.value.trim();
+    if (msg && window.socket) {
+        window.socket.emit('chat_message', { message: msg, country: window.gameState?.myCountry || 'سازمان ملل' });
+        input.value = '';
+    }
+}
+
+// گوش دادن به پیام‌های چت برای نمایش در این تب (اختیاری)
+if (window.socket) {
+    window.socket.on('chat_message', function(data) {
+        let chat = document.getElementById('unChatMessages');
+        if (!chat) return;
+        let time = new Date(data.time).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+        chat.innerHTML += `<div><b>${data.country || data.name}:</b> ${data.message} <span style="color:#94a3b8;">${time}</span></div>`;
+        chat.scrollTop = chat.scrollHeight;
+    });
+}
+
+// بارگذاری اولیه لیست
+refreshUnCountriesList();
+
+// هر زمان ownership تغییر کرد، لیست را به‌روز کنیم (اختیاری)
+if (window.socket) {
+    window.socket.on('ownership_updated', refreshUnCountriesList);
+}
+</script>

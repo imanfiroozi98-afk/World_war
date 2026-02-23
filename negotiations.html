@@ -1,0 +1,82 @@
+<div style="display:flex; gap:20px; height:100%;">
+    <div style="flex:1; background:rgba(20,30,50,0.6); border-radius:24px; padding:15px; max-width:250px;">
+        <div style="color:#64ffda; font-weight:bold; margin-bottom:10px;">🌍 کشورها</div>
+        <div id="negCountriesList" style="overflow-y:auto; max-height:400px;"></div>
+    </div>
+    <div style="flex:2; display:flex; flex-direction:column;">
+        <div style="color:#64ffda; font-weight:bold;">💬 کانال مذاکره</div>
+        <div id="negChatMessages" style="flex:1; overflow-y:auto; background:rgba(0,0,0,0.3); border-radius:16px; padding:10px; margin:10px 0;"></div>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="negChatInput" placeholder="پیام..." style="flex:1; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px 16px;">
+            <button onclick="sendNegChat()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px 20px; cursor:pointer;">ارسال</button>
+        </div>
+        <div style="margin-top:20px; background:rgba(20,30,50,0.6); border-radius:24px; padding:15px;">
+            <div style="color:#64ffda; font-weight:bold;">🗳️ رأی‌گیری</div>
+            <div id="resolutionDisplay" style="background:#1e293b; border-radius:16px; padding:10px; margin:10px 0;">${window.negotiationData?.currentResolution || 'قطعنامه جاری: تغییرات آب و هوایی'}</div>
+            <div style="display:flex; gap:10px;">
+                <button onclick="voteResolution('agree')" style="background:#16a34a; border:none; border-radius:40px; padding:8px; flex:1; cursor:pointer;">موافق</button>
+                <button onclick="voteResolution('disagree')" style="background:#b91c1c; border:none; border-radius:40px; padding:8px; flex:1; cursor:pointer;">مخالف</button>
+                <button onclick="voteResolution('abstain')" style="background:#6b7280; border:none; border-radius:40px; padding:8px; flex:1; cursor:pointer;">ممتنع</button>
+            </div>
+        </div>
+        <div style="margin-top:20px; background:rgba(20,30,50,0.6); border-radius:24px; padding:15px;">
+            <div style="color:#64ffda; font-weight:bold;">💰 انتقال منابع</div>
+            <div style="display:flex; gap:10px; margin:10px 0;">
+                <input type="number" id="tradeAmount" placeholder="مقدار" style="flex:1; background:#1e293b; border:1px solid #3b82f6; border-radius:40px; padding:8px;">
+                <button onclick="transferOil()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px 20px; cursor:pointer;">نفت</button>
+                <button onclick="transferMoney()" style="background:#3b82f6; border:none; border-radius:40px; padding:8px 20px; cursor:pointer;">طلا</button>
+            </div>
+            <div id="tradeLog" style="height:80px; overflow-y:auto; background:#1e293b; border-radius:16px; padding:8px; font-size:12px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let negotiationData = window.negotiationData || { currentResolution: 'قطعنامه جاری: تغییرات آب و هوایی', votes: {}, tradeLog: [] };
+window.negotiationData = negotiationData;
+
+function refreshNegCountriesList() {
+    let listDiv = document.getElementById('negCountriesList');
+    if (!listDiv) return;
+    let html = '';
+    let countries = Object.keys(window.countriesGeo || {}).sort();
+    countries.forEach(country => {
+        let owner = window.serverState?.globalOwnership[country] || 'آزاد';
+        html += `<div style="padding:5px; border-bottom:1px solid #334155;">${country} (${owner})</div>`;
+    });
+    listDiv.innerHTML = html;
+}
+
+function sendNegChat() {
+    let input = document.getElementById('negChatInput');
+    let msg = input.value.trim();
+    if (!msg) return;
+    let chatDiv = document.getElementById('negChatMessages');
+    chatDiv.innerHTML += `<div><b>${window.currentUser}:</b> ${msg}</div>`;
+    input.value = '';
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+}
+
+function voteResolution(vote) {
+    negotiationData.votes[window.currentUser] = vote;
+    alert(`رأی شما ثبت شد: ${vote}`);
+}
+
+function transferOil() {
+    let amount = document.getElementById('tradeAmount').value;
+    if (!amount || amount <= 0) return alert('مقدار معتبر وارد کنید');
+    let log = document.getElementById('tradeLog');
+    log.innerHTML += `<div>🔹 ${window.currentUser} مقدار ${amount} نفت منتقل کرد.</div>`;
+    log.scrollTop = log.scrollHeight;
+}
+
+function transferMoney() {
+    let amount = document.getElementById('tradeAmount').value;
+    if (!amount || amount <= 0) return alert('مقدار معتبر وارد کنید');
+    let log = document.getElementById('tradeLog');
+    log.innerHTML += `<div>💰 ${window.currentUser} مقدار ${amount} طلا منتقل کرد.</div>`;
+    log.scrollTop = log.scrollHeight;
+}
+
+refreshNegCountriesList();
+</script>

@@ -1,0 +1,90 @@
+<h3 style="color:#64ffda; text-align:center;">💹 قیمت‌های لحظه‌ای</h3>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-top:20px;">
+    <div style="background:#1e293b; border-radius:20px; padding:15px;">
+        <div style="color:#FFA500; font-weight:bold;">نفت (WTI)</div>
+        <canvas id="oilCanvas" width="500" height="200" style="width:100%; height:auto; background:#0f172a; border-radius:16px; margin:10px 0;"></canvas>
+        <div id="oilPrice" style="font-size:18px; font-weight:bold;">78.50</div>
+        <div id="oilDir" style="font-size:14px;">⬆ افزایش</div>
+    </div>
+    <div style="background:#1e293b; border-radius:20px; padding:15px;">
+        <div style="color:#00CC99; font-weight:bold;">گاز طبیعی (NG)</div>
+        <canvas id="gasCanvas" width="500" height="200" style="width:100%; height:auto; background:#0f172a; border-radius:16px; margin:10px 0;"></canvas>
+        <div id="gasPrice" style="font-size:18px; font-weight:bold;">2.15</div>
+        <div id="gasDir" style="font-size:14px;">⬆ افزایش</div>
+    </div>
+    <div style="background:#1e293b; border-radius:20px; padding:15px;">
+        <div style="color:#FFD700; font-weight:bold;">طلا (XAU)</div>
+        <canvas id="goldCanvas" width="500" height="200" style="width:100%; height:auto; background:#0f172a; border-radius:16px; margin:10px 0;"></canvas>
+        <div id="goldPrice" style="font-size:18px; font-weight:bold;">2020.50</div>
+        <div id="goldDir" style="font-size:14px;">⬆ افزایش</div>
+    </div>
+</div>
+
+<script>
+let commodities = {
+    oil: { price: 78.5, history: [78.5], color: '#FFA500' },
+    gas: { price: 2.15, history: [2.15], color: '#00CC99' },
+    gold: { price: 2020.5, history: [2020.5], color: '#FFD700' }
+};
+let maxPoints = 50;
+let updateInterval = null;
+
+function drawChart(key) {
+    let canvas = document.getElementById(key + 'Canvas');
+    if (!canvas) return;
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let data = commodities[key].history;
+    if (data.length < 2) return;
+    let min = Math.min(...data);
+    let max = Math.max(...data);
+    let range = max - min || 1;
+    ctx.strokeStyle = commodities[key].color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < data.length; i++) {
+        let x = (i / (maxPoints - 1)) * canvas.width;
+        let y = canvas.height - ((data[i] - min) / range) * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+}
+
+function updatePrices() {
+    for (let key of ['oil', 'gas', 'gold']) {
+        let data = commodities[key];
+        let old = data.price;
+        let changePercent;
+        if (key === 'gold') changePercent = (Math.random() * 0.03) - 0.015;
+        else if (key === 'oil') changePercent = (Math.random() * 0.2) - 0.1;
+        else changePercent = (Math.random() * 0.6) - 0.3;
+        let newPrice = old * (1 + changePercent / 100);
+        data.price = newPrice;
+        data.history.push(newPrice);
+        if (data.history.length > maxPoints) data.history.shift();
+        
+        document.getElementById(key + 'Price').innerText = newPrice.toFixed(2);
+        let dir = newPrice > old ? '⬆ افزایش' : (newPrice < old ? '⬇ کاهش' : '↔ ثابت');
+        let dirColor = newPrice > old ? '#00FF7F' : (newPrice < old ? '#FF4500' : '#AAAAAA');
+        document.getElementById(key + 'Dir').innerText = dir;
+        document.getElementById(key + 'Dir').style.color = dirColor;
+        
+        drawChart(key);
+    }
+}
+
+// شروع به‌روزرسانی
+if (updateInterval) clearInterval(updateInterval);
+updateInterval = setInterval(updatePrices, 5000);
+
+// رسم اولیه
+drawChart('oil');
+drawChart('gas');
+drawChart('gold');
+
+// وقتی تب بسته می‌شود (اختیاری) interval پاک شود
+window.addEventListener('beforeunload', function() {
+    clearInterval(updateInterval);
+});
+</script>
