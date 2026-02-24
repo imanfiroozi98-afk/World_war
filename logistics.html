@@ -1,0 +1,108 @@
+<div style="padding: 20px;">
+    <h2 style="color: #fbbf24; margin-bottom: 20px;">✈️ لجستیک جهانی</h2>
+    
+    <!-- نقشه SVG -->
+    <div style="background: #1e293b; border-radius: 15px; padding: 10px; margin-bottom: 20px;">
+        <svg id="flightMap" viewBox="0 0 1000 500" style="width:100%; height:auto; background:#0f172a; border-radius: 10px;"></svg>
+    </div>
+    
+    <!-- پنل ارسال -->
+    <div id="sendPanel" style="background: #1e293b; border-radius: 15px; padding: 20px; display: none;">
+        <h3 style="color: #60a5fa; margin-bottom: 15px;">ارسال تجهیزات</h3>
+        <div style="margin-bottom: 10px;">
+            <span>مبدا: <span id="sendFrom"></span></span>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label>مقصد: 
+                <select id="destSelect" style="background: #0f172a; color: white; border: 1px solid #3b82f6; padding: 5px; border-radius: 5px;"></select>
+            </label>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label>نوع تجهیزات: 
+                <select id="equipType" style="background: #0f172a; color: white; border: 1px solid #3b82f6; padding: 5px; border-radius: 5px;">
+                    <option value="soldier">سرباز</option>
+                    <option value="tank">تانک</option>
+                    <option value="food">غذا</option>
+                    <option value="oil">نفت</option>
+                </select>
+            </label>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label>مقدار: <input type="number" id="equipAmount" min="1" value="1" style="background: #0f172a; color: white; border: 1px solid #3b82f6; padding: 5px; border-radius: 5px; width: 80px;"></label>
+        </div>
+        <div style="margin-bottom: 10px; color: #4ade80;" id="estimatedCost">هزینه تخمینی: ۰ طلا</div>
+        <button onclick="confirmSend()" style="background: #2563eb; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">ارسال</button>
+        <button onclick="closeSendPanel()" style="background: #4b5563; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px;">انصراف</button>
+    </div>
+</div>
+
+<script>
+let selectedFrom = null;
+
+function openSendPanel(fromKey) {
+    selectedFrom = fromKey;
+    document.getElementById('sendPanel').style.display = 'block';
+    document.getElementById('sendFrom').innerText = FLY_DATA[fromKey].name;
+    
+    const destSelect = document.getElementById('destSelect');
+    destSelect.innerHTML = '';
+    Object.keys(FLY_DATA).forEach(key => {
+        if (key !== fromKey) {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = FLY_DATA[key].name;
+            destSelect.appendChild(option);
+        }
+    });
+    
+    document.getElementById('equipType').onchange = updateEstimatedCost;
+    document.getElementById('equipAmount').oninput = updateEstimatedCost;
+    destSelect.onchange = updateEstimatedCost;
+    updateEstimatedCost();
+}
+
+function updateEstimatedCost() {
+    const fromKey = selectedFrom;
+    const toKey = document.getElementById('destSelect')?.value;
+    if (!fromKey || !toKey) return;
+    const amount = parseInt(document.getElementById('equipAmount').value) || 1;
+    const from = FLY_DATA[fromKey];
+    const to = FLY_DATA[toKey];
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const distance = Math.sqrt(dx*dx + dy*dy) * 20;
+    const weightFactor = amount * 2;
+    const relationFactor = gameState?.relations[toKey] || 1;
+    let cost = Math.floor(distance * weightFactor * relationFactor);
+    document.getElementById('estimatedCost').innerText = `هزینه تخمینی: ${cost} طلا`;
+}
+
+function confirmSend() {
+    const fromKey = selectedFrom;
+    const toKey = document.getElementById('destSelect')?.value;
+    const amount = parseInt(document.getElementById('equipAmount').value) || 1;
+    const type = document.getElementById('equipType').value;
+    if (!fromKey || !toKey) {
+        showGameMessage("مبدا و مقصد را انتخاب کنید", true);
+        return;
+    }
+    sendEquipment(fromKey, toKey, type, amount);
+    closeSendPanel();
+}
+
+function closeSendPanel() {
+    document.getElementById('sendPanel').style.display = 'none';
+    selectedFrom = null;
+}
+
+// مقداردهی اولیه نقشه
+function initLogisticsMap() {
+    const svg = document.getElementById('flightMap');
+    if (svg) {
+        setFlightMapSVG(svg);
+        renderCountries();
+        if (typeof restoreFlights === 'function') restoreFlights();
+    }
+}
+initLogisticsMap();
+</script>
