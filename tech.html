@@ -42,86 +42,69 @@
 </div>
 
 <script>
-    // تعریف شیء ذخیره‌سازی (با مقدار پیش‌فرض)
-    let geoWarSave = {
-        resources: { gold: 1000 },
-        technology: { military: 1, oil: 1, farm: 1, industry: 1 },
-        playerPower: 300
-    };
+// تابع نمایش پیام موقت
+function showMessage(text) {
+    const box = document.getElementById('msgBox');
+    box.textContent = text;
+    setTimeout(() => box.textContent = '', 2000);
+}
 
-    // تلاش برای بارگذاری از localStorage
-    try {
-        const saved = localStorage.getItem('geoWarSave');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            // اطمینان از وجود ساختار درست
-            if (parsed.resources && parsed.technology && parsed.playerPower !== undefined) {
-                geoWarSave = parsed;
-            }
-        }
-    } catch (e) {
-        console.warn('خطا در بارگذاری:', e);
+function upgradeTech(type) {
+    let costs = { military: 200, oil: 150, farm: 150, industry: 200 };
+    
+    if (!geoWarSave) {
+        showMessage("خطا: داده‌ای یافت نشد");
+        return;
     }
-
-    // ذخیره در localStorage
-    function saveGame() {
-        localStorage.setItem('geoWarSave', JSON.stringify(geoWarSave));
+    
+    if (geoWarSave.technology[type] >= 5) {
+        showMessage("⚠️ حداکثر سطح!");
+        return;
     }
-
-    // نمایش پیام موقت
-    function showMessage(text) {
-        const box = document.getElementById('msgBox');
-        box.textContent = text;
-        setTimeout(() => box.textContent = '', 2000);
+    
+    if (geoWarSave.resources.gold < costs[type]) {
+        showMessage("💰 طلا کافی نیست!");
+        return;
     }
-
-    // به‌روزرسانی تمام المان‌های رابط کاربری
-    function updateUI() {
-        // سطوح تکنولوژی
-        document.getElementById('milTechLevel').textContent = geoWarSave.technology.military + '/5';
-        document.getElementById('oilTechLevel').textContent = geoWarSave.technology.oil + '/5';
-        document.getElementById('farmTechLevel').textContent = geoWarSave.technology.farm + '/5';
-        document.getElementById('indTechLevel').textContent = geoWarSave.technology.industry + '/5';
-
-        // سقف قدرت (بر اساس سطح نظامی)
-        geoWarSave.playerPower = 250 + geoWarSave.technology.military * 50;
-        document.getElementById('powerCap').textContent = geoWarSave.playerPower;
-
-        // غیرفعال کردن دکمه‌ها در سطح حداکثر
-        document.getElementById('milTechBtn').disabled = geoWarSave.technology.military >= 5;
-        document.getElementById('oilTechBtn').disabled = geoWarSave.technology.oil >= 5;
-        document.getElementById('farmTechBtn').disabled = geoWarSave.technology.farm >= 5;
-        document.getElementById('indTechBtn').disabled = geoWarSave.technology.industry >= 5;
+    
+    geoWarSave.resources.gold -= costs[type];
+    geoWarSave.technology[type]++;
+    
+    if (type === 'military') {
+        geoWarSave.playerPower += 50;
+        // اعمال سقف قدرت
+        let powerCap = 300 + (geoWarSave.technology.military - 1) * 200;
+        if (geoWarSave.playerPower > powerCap) geoWarSave.playerPower = powerCap;
     }
+    
+    // فراخوانی توابع سراسری
+    if (window.saveGame) window.saveGame();
+    if (window.updateUI) window.updateUI();
+    
+    // بروزرسانی UI داخل پنل
+    updateTechUI();
+    
+    showMessage(`✅ تکنولوژی ${type} ارتقا یافت!`);
+}
 
-    // ارتقای تکنولوژی
-    function upgradeTech(type) {
-        const costs = { military: 200, oil: 150, farm: 150, industry: 200 };
+function updateTechUI() {
+    if (!geoWarSave) return;
+    
+    document.getElementById('milTechLevel').innerText = geoWarSave.technology.military + '/5';
+    document.getElementById('oilTechLevel').innerText = geoWarSave.technology.oil + '/5';
+    document.getElementById('farmTechLevel').innerText = geoWarSave.technology.farm + '/5';
+    document.getElementById('indTechLevel').innerText = geoWarSave.technology.industry + '/5';
+    
+    let powerCap = 300 + (geoWarSave.technology.military - 1) * 200;
+    document.getElementById('powerCap').innerText = powerCap;
+    
+    // غیرفعال کردن دکمه‌ها
+    document.getElementById('milTechBtn').disabled = geoWarSave.technology.military >= 5 || geoWarSave.resources.gold < 200;
+    document.getElementById('oilTechBtn').disabled = geoWarSave.technology.oil >= 5 || geoWarSave.resources.gold < 150;
+    document.getElementById('farmTechBtn').disabled = geoWarSave.technology.farm >= 5 || geoWarSave.resources.gold < 150;
+    document.getElementById('indTechBtn').disabled = geoWarSave.technology.industry >= 5 || geoWarSave.resources.gold < 200;
+}
 
-        // بررسی حداکثر سطح
-        if (geoWarSave.technology[type] >= 5) {
-            showMessage('❌ حداکثر سطح!');
-            return;
-        }
-
-        // بررسی منابع کافی
-        if (geoWarSave.resources.gold < costs[type]) {
-            showMessage('❌ طلا کافی نیست!');
-            return;
-        }
-
-        // اعمال ارتقا
-        geoWarSave.resources.gold -= costs[type];
-        geoWarSave.technology[type]++;
-
-        // ذخیره و به‌روزرسانی
-        saveGame();
-        updateUI();
-        showMessage(`✅ تکنولوژی ${type} ارتقا یافت!`);
-    }
-
-    // اجرای اولیه
-    window.onload = function() {
-        updateUI();
-    };
+// بروزرسانی اولیه
+updateTechUI();
 </script>

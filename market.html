@@ -75,12 +75,10 @@ function updateMarketUI() {
     document.getElementById('globalSupply').innerText = geoWarSave.market?.globalSupply || 1000;
     document.getElementById('globalEvent').innerText = geoWarSave.market?.event || 'عادی';
     
-    // آیکون روند
     const trend = geoWarSave.market?.trend || '⚖';
     document.getElementById('priceTrend').innerText = trend + ' ' + 
         (trend === '📈' ? 'صعودی' : trend === '📉' ? 'نزولی' : 'ثابت');
     
-    // غیرفعال کردن دکمه‌ها بر اساس منابع (اختیاری)
     const price = geoWarSave.market?.oilPrice || 100;
     
     // دکمه‌های فروش: نیاز به نفت کافی
@@ -90,7 +88,7 @@ function updateMarketUI() {
     document.getElementById('sell500').disabled = geoWarSave.resources.oil < 500;
     
     // دکمه‌های خرید: نیاز به طلای کافی (با احتساب قیمت)
-    const costFor10 = Math.floor(10 * price / 10); // همان formula
+    const costFor10 = Math.floor(10 * price / 10);
     const costFor50 = Math.floor(50 * price / 10);
     const costFor100 = Math.floor(100 * price / 10);
     const costFor500 = Math.floor(500 * price / 10);
@@ -103,7 +101,10 @@ function updateMarketUI() {
 
 // تابع فروش نفت
 function sellOil(amount) {
-    if (!geoWarSave) return;
+    if (!geoWarSave) {
+        showMessage("خطا: داده‌ای یافت نشد", true);
+        return;
+    }
     
     if (geoWarSave.resources.oil < amount) {
         showMessage("❌ نفت کافی نیست!", true);
@@ -116,19 +117,22 @@ function sellOil(amount) {
     geoWarSave.resources.oil -= amount;
     geoWarSave.resources.gold += Math.floor(income);
     
-    saveGame();
-    if (typeof updateUI === 'function') updateUI();
+    if (window.saveGame) window.saveGame();
+    if (window.updateUI) window.updateUI();
     updateMarketUI();
     
     showMessage(`💰 ${amount} نفت فروخته شد! +${Math.floor(income)} طلا`);
 }
 
-// تابع خرید نفت (جدید)
+// تابع خرید نفت
 function buyOil(amount) {
-    if (!geoWarSave) return;
+    if (!geoWarSave) {
+        showMessage("خطا: داده‌ای یافت نشد", true);
+        return;
+    }
     
     let price = geoWarSave.market.oilPrice;
-    let cost = Math.floor(amount * price / 10); // مطابق فرمول فروش
+    let cost = Math.floor(amount * price / 10);
     
     if (geoWarSave.resources.gold < cost) {
         showMessage("❌ طلا کافی نیست!", true);
@@ -138,14 +142,14 @@ function buyOil(amount) {
     geoWarSave.resources.gold -= cost;
     geoWarSave.resources.oil += amount;
     
-    saveGame();
-    if (typeof updateUI === 'function') updateUI();
+    if (window.saveGame) window.saveGame();
+    if (window.updateUI) window.updateUI();
     updateMarketUI();
     
     showMessage(`🛢 ${amount} نفت خریداری شد! -${cost} طلا`);
 }
 
-// بروزرسانی بازار (مشابه قبل با تغییرات جزئی)
+// بروزرسانی بازار (تغییر قیمت تصادفی)
 function updateMarket() {
     if (!geoWarSave || !geoWarSave.market) return;
     
@@ -171,18 +175,10 @@ function updateMarket() {
     updateMarketUI();
 }
 
-// ذخیره‌سازی (اگر تابع سراسری saveGame وجود نداشته باشد، یک جایگزین محلی)
-if (typeof saveGame !== 'function') {
-    window.saveGame = function() {
-        try {
-            localStorage.setItem('geoWarSave', JSON.stringify(geoWarSave));
-        } catch (e) {}
-    };
-}
-
-// اجرای اولیه و تنظیم آپدیت خودکار
+// اجرای اولیه
 updateMarketUI();
-setInterval(updateMarket, 10000); // هر ۱۰ ثانیه یکبار
+// به‌روزرسانی خودکار بازار هر ۱۰ ثانیه
+setInterval(updateMarket, 10000);
 </script>
 
 <style>
