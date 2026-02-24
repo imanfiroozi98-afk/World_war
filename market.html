@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <!-- بخش خرید نفت (جدید) -->
+    <!-- بخش خرید نفت -->
     <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
         <h3 style="color: white; margin-bottom: 20px;">🛢 خرید نفت</h3>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -64,115 +64,134 @@ function showMessage(text, isError = false) {
 
 // تابع به‌روزرسانی نمایش منابع و قیمت
 function updateMarketUI() {
-    if (!geoWarSave) return;
-    
-    // نمایش منابع
-    document.getElementById('oilAmount').innerText = Math.floor(geoWarSave.resources.oil);
-    document.getElementById('goldAmount').innerText = Math.floor(geoWarSave.resources.gold);
-    
-    // نمایش قیمت و اطلاعات بازار
-    document.getElementById('oilPrice').innerText = geoWarSave.market?.oilPrice || 100;
-    document.getElementById('globalSupply').innerText = geoWarSave.market?.globalSupply || 1000;
-    document.getElementById('globalEvent').innerText = geoWarSave.market?.event || 'عادی';
-    
-    const trend = geoWarSave.market?.trend || '⚖';
-    document.getElementById('priceTrend').innerText = trend + ' ' + 
-        (trend === '📈' ? 'صعودی' : trend === '📉' ? 'نزولی' : 'ثابت');
-    
-    const price = geoWarSave.market?.oilPrice || 100;
-    
-    // دکمه‌های فروش: نیاز به نفت کافی
-    document.getElementById('sell10').disabled = geoWarSave.resources.oil < 10;
-    document.getElementById('sell50').disabled = geoWarSave.resources.oil < 50;
-    document.getElementById('sell100').disabled = geoWarSave.resources.oil < 100;
-    document.getElementById('sell500').disabled = geoWarSave.resources.oil < 500;
-    
-    // دکمه‌های خرید: نیاز به طلای کافی (با احتساب قیمت)
-    const costFor10 = Math.floor(10 * price / 10);
-    const costFor50 = Math.floor(50 * price / 10);
-    const costFor100 = Math.floor(100 * price / 10);
-    const costFor500 = Math.floor(500 * price / 10);
-    
-    document.getElementById('buy10').disabled = geoWarSave.resources.gold < costFor10;
-    document.getElementById('buy50').disabled = geoWarSave.resources.gold < costFor50;
-    document.getElementById('buy100').disabled = geoWarSave.resources.gold < costFor100;
-    document.getElementById('buy500').disabled = geoWarSave.resources.gold < costFor500;
+    try {
+        if (!geoWarSave) return;
+        
+        // نمایش منابع
+        document.getElementById('oilAmount').innerText = Math.floor(geoWarSave.resources.oil);
+        document.getElementById('goldAmount').innerText = Math.floor(geoWarSave.resources.gold);
+        
+        // نمایش قیمت و اطلاعات بازار
+        document.getElementById('oilPrice').innerText = geoWarSave.market?.oilPrice || 100;
+        document.getElementById('globalSupply').innerText = geoWarSave.market?.globalSupply || 1000;
+        document.getElementById('globalEvent').innerText = geoWarSave.market?.event || 'عادی';
+        
+        const trend = geoWarSave.market?.trend || '⚖';
+        document.getElementById('priceTrend').innerText = trend + ' ' + 
+            (trend === '📈' ? 'صعودی' : trend === '📉' ? 'نزولی' : 'ثابت');
+        
+        const price = geoWarSave.market?.oilPrice || 100;
+        
+        // دکمه‌های فروش: نیاز به نفت کافی
+        document.getElementById('sell10').disabled = geoWarSave.resources.oil < 10;
+        document.getElementById('sell50').disabled = geoWarSave.resources.oil < 50;
+        document.getElementById('sell100').disabled = geoWarSave.resources.oil < 100;
+        document.getElementById('sell500').disabled = geoWarSave.resources.oil < 500;
+        
+        // دکمه‌های خرید: نیاز به طلای کافی
+        const costFor10 = Math.floor(10 * price / 10);
+        const costFor50 = Math.floor(50 * price / 10);
+        const costFor100 = Math.floor(100 * price / 10);
+        const costFor500 = Math.floor(500 * price / 10);
+        
+        document.getElementById('buy10').disabled = geoWarSave.resources.gold < costFor10;
+        document.getElementById('buy50').disabled = geoWarSave.resources.gold < costFor50;
+        document.getElementById('buy100').disabled = geoWarSave.resources.gold < costFor100;
+        document.getElementById('buy500').disabled = geoWarSave.resources.gold < costFor500;
+    } catch (e) {
+        showMessage("خطا در به‌روزرسانی: " + e.message, true);
+    }
 }
 
 // تابع فروش نفت
 function sellOil(amount) {
-    if (!geoWarSave) {
-        showMessage("خطا: داده‌ای یافت نشد", true);
-        return;
+    try {
+        if (!geoWarSave) {
+            showMessage("خطا: داده‌ای یافت نشد", true);
+            return;
+        }
+        
+        if (geoWarSave.resources.oil < amount) {
+            showMessage("❌ نفت کافی نیست!", true);
+            return;
+        }
+        
+        let price = geoWarSave.market.oilPrice;
+        let income = amount * price / 10;
+        
+        geoWarSave.resources.oil -= amount;
+        geoWarSave.resources.gold += Math.floor(income);
+        
+        if (window.saveGame) window.saveGame();
+        if (window.updateUI) window.updateUI();
+        updateMarketUI();
+        
+        // نمایش مقدار جدید برای اطمینان
+        let newOil = document.getElementById('oilAmount').innerText;
+        showMessage(`💰 ${amount} نفت فروخته شد! +${Math.floor(income)} طلا (نفت فعلی: ${newOil})`);
+    } catch (e) {
+        showMessage("خطا در فروش: " + e.message, true);
     }
-    
-    if (geoWarSave.resources.oil < amount) {
-        showMessage("❌ نفت کافی نیست!", true);
-        return;
-    }
-    
-    let price = geoWarSave.market.oilPrice;
-    let income = amount * price / 10; // مطابق فرمول قبلی
-    
-    geoWarSave.resources.oil -= amount;
-    geoWarSave.resources.gold += Math.floor(income);
-    
-    if (window.saveGame) window.saveGame();
-    if (window.updateUI) window.updateUI();
-    updateMarketUI();
-    
-    showMessage(`💰 ${amount} نفت فروخته شد! +${Math.floor(income)} طلا`);
 }
 
 // تابع خرید نفت
 function buyOil(amount) {
-    if (!geoWarSave) {
-        showMessage("خطا: داده‌ای یافت نشد", true);
-        return;
+    try {
+        if (!geoWarSave) {
+            showMessage("خطا: داده‌ای یافت نشد", true);
+            return;
+        }
+        
+        let price = geoWarSave.market.oilPrice;
+        let cost = Math.floor(amount * price / 10);
+        
+        if (geoWarSave.resources.gold < cost) {
+            showMessage("❌ طلا کافی نیست!", true);
+            return;
+        }
+        
+        geoWarSave.resources.gold -= cost;
+        geoWarSave.resources.oil += amount;
+        
+        if (window.saveGame) window.saveGame();
+        if (window.updateUI) window.updateUI();
+        updateMarketUI();
+        
+        let newGold = document.getElementById('goldAmount').innerText;
+        showMessage(`🛢 ${amount} نفت خریداری شد! -${cost} طلا (طلای فعلی: ${newGold})`);
+    } catch (e) {
+        showMessage("خطا در خرید: " + e.message, true);
     }
-    
-    let price = geoWarSave.market.oilPrice;
-    let cost = Math.floor(amount * price / 10);
-    
-    if (geoWarSave.resources.gold < cost) {
-        showMessage("❌ طلا کافی نیست!", true);
-        return;
-    }
-    
-    geoWarSave.resources.gold -= cost;
-    geoWarSave.resources.oil += amount;
-    
-    if (window.saveGame) window.saveGame();
-    if (window.updateUI) window.updateUI();
-    updateMarketUI();
-    
-    showMessage(`🛢 ${amount} نفت خریداری شد! -${cost} طلا`);
 }
 
 // بروزرسانی بازار (تغییر قیمت تصادفی)
 function updateMarket() {
-    if (!geoWarSave || !geoWarSave.market) return;
-    
-    let supply = geoWarSave.market.globalSupply;
-    let demand = 1000 + Math.random() * 200 - 100;
-    
-    let events = ["عادی", "جنگ جهانی", "بحران نفت", "توافق اوپک", "رکود اقتصادی"];
-    let event = events[Math.floor(Math.random() * events.length)];
-    
-    let priceChange = (demand - supply) / 100;
-    let trendIcon = "⚖";
-    
-    if (event === "جنگ جهانی") { priceChange += 50; trendIcon = "📈"; }
-    if (event === "بحران نفت") { priceChange += 80; trendIcon = "📈"; }
-    if (event === "توافق اوپک") { priceChange += 30; trendIcon = "📈"; }
-    if (event === "رکود اقتصادی") { priceChange -= 40; trendIcon = "📉"; }
-    
-    geoWarSave.market.oilPrice = Math.max(30, Math.min(300, geoWarSave.market.oilPrice + priceChange));
-    geoWarSave.market.globalSupply = Math.floor(800 + Math.random() * 400);
-    geoWarSave.market.event = event;
-    geoWarSave.market.trend = trendIcon;
-    
-    updateMarketUI();
+    try {
+        if (!geoWarSave || !geoWarSave.market) return;
+        
+        let supply = geoWarSave.market.globalSupply;
+        let demand = 1000 + Math.random() * 200 - 100;
+        
+        let events = ["عادی", "جنگ جهانی", "بحران نفت", "توافق اوپک", "رکود اقتصادی"];
+        let event = events[Math.floor(Math.random() * events.length)];
+        
+        let priceChange = (demand - supply) / 100;
+        let trendIcon = "⚖";
+        
+        if (event === "جنگ جهانی") { priceChange += 50; trendIcon = "📈"; }
+        if (event === "بحران نفت") { priceChange += 80; trendIcon = "📈"; }
+        if (event === "توافق اوپک") { priceChange += 30; trendIcon = "📈"; }
+        if (event === "رکود اقتصادی") { priceChange -= 40; trendIcon = "📉"; }
+        
+        geoWarSave.market.oilPrice = Math.max(30, Math.min(300, geoWarSave.market.oilPrice + priceChange));
+        geoWarSave.market.globalSupply = Math.floor(800 + Math.random() * 400);
+        geoWarSave.market.event = event;
+        geoWarSave.market.trend = trendIcon;
+        
+        updateMarketUI();
+    } catch (e) {
+        console.error("خطا در به‌روزرسانی بازار:", e);
+    }
 }
 
 // اجرای اولیه
