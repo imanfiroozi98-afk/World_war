@@ -1,0 +1,99 @@
+<div style="padding: 20px;">
+    <h2 style="color: #fbbf24; margin-bottom: 20px;">📢 بیلبورد جهانی</h2>
+    
+    <!-- فرم ارسال بیانیه (فقط برای کشورهای تحت مالکیت) -->
+    <div id="bulletinForm" style="background: #1e293b; border-radius: 15px; padding: 20px; margin-bottom: 20px; display: none;">
+        <h3 style="color: #60a5fa; margin-bottom: 15px;">ارسال بیانیه رسمی</h3>
+        <div style="margin-bottom: 10px;">
+            <span>کشور: <span id="myCountryName"></span></span>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <textarea id="bulletinMessage" rows="3" style="width:100%; background:#0f172a; color:white; border:1px solid #3b82f6; border-radius:8px; padding:10px;" placeholder="متن بیانیه..."></textarea>
+        </div>
+        <button onclick="postBulletin()" style="background: #2563eb; border:none; color:white; padding:10px 20px; border-radius:8px; cursor:pointer;">ارسال</button>
+        <span id="bulletinError" style="color:#f87171; margin-left:10px;"></span>
+    </div>
+
+    <!-- لیست بیانیه‌ها -->
+    <div id="bulletinsList" style="background: #1e293b; border-radius: 15px; padding: 20px; max-height: 400px; overflow-y: auto;">
+        <!-- بیانیه‌ها با جاوااسکریپت اضافه می‌شوند -->
+    </div>
+</div>
+
+<script>
+let currentUserCountry = null;
+
+// دریافت کشور اصلی کاربر از gameState (که از طریق geoWarSave در دسترس است)
+if (window.geoWarSave && window.geoWarSave.myCountry) {
+    currentUserCountry = window.geoWarSave.myCountry;
+}
+
+// نمایش فرم فقط اگر کشور اصلی داشته باشیم
+if (currentUserCountry) {
+    document.getElementById('bulletinForm').style.display = 'block';
+    document.getElementById('myCountryName').innerText = currentUserCountry;
+} else {
+    document.getElementById('bulletinForm').style.display = 'none';
+}
+
+// تابع ارسال بیانیه
+function postBulletin() {
+    const message = document.getElementById('bulletinMessage').value.trim();
+    if (!message) {
+        document.getElementById('bulletinError').innerText = 'متن بیانیه نمی‌تواند خالی باشد';
+        return;
+    }
+    if (!window.socket) {
+        document.getElementById('bulletinError').innerText = 'اتصال به سرور برقرار نیست';
+        return;
+    }
+    window.socket.emit('send_bulletin', { country: currentUserCountry, message });
+    document.getElementById('bulletinMessage').value = '';
+    document.getElementById('bulletinError').innerText = '';
+}
+
+// تابع برای افزودن یک بیانیه به لیست
+function addBulletinToUI(bulletin) {
+    const list = document.getElementById('bulletinsList');
+    const item = document.createElement('div');
+    item.style.background = '#0f172a';
+    item.style.borderRadius = '10px';
+    item.style.padding = '15px';
+    item.style.marginBottom = '10px';
+    item.style.border = '1px solid #334155';
+    
+    const time = new Date(bulletin.time).toLocaleString('fa-IR');
+    item.innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:#fbbf24; font-weight:bold;">${bulletin.country}</span>
+            <span style="color:#94a3b8; font-size:12px;">${time}</span>
+        </div>
+        <div style="color:white;">${bulletin.message}</div>
+    `;
+    list.appendChild(item);
+    list.scrollTop = list.scrollHeight;
+}
+
+// پاک کردن لیست و بارگذاری مجدد
+function loadBulletins(bulletins) {
+    const list = document.getElementById('bulletinsList');
+    list.innerHTML = '';
+    bulletins.forEach(b => addBulletinToUI(b));
+}
+
+// رویدادهای socket
+if (window.socket) {
+    window.socket.on('new_bulletin', (bulletin) => {
+        addBulletinToUI(bulletin);
+    });
+    window.socket.on('bulletins_update', (bulletins) => {
+        loadBulletins(bulletins);
+    });
+}
+</script>
+
+<style>
+#bulletinsList::-webkit-scrollbar { width: 6px; }
+#bulletinsList::-webkit-scrollbar-track { background: #1e293b; }
+#bulletinsList::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+</style>
