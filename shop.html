@@ -8,7 +8,7 @@
             <span>تجهیزات درآمدزا</span>
         </div>
         <div class="shop-grid">
-            <div class="shop-item">
+            <div class="shop-item" id="mine-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">⛏ معدن</span>
                     <span class="shop-item-level" id="mineLevel">0</span>
@@ -18,7 +18,7 @@
                 <button onclick="buyBuilding('mine')" id="mineBtn">ساخت</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="farm-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🌾 مزرعه</span>
                     <span class="shop-item-level" id="farmLevel">0</span>
@@ -28,7 +28,7 @@
                 <button onclick="buyBuilding('farm')" id="farmBtn">ساخت</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="refinery-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🛢 پالایشگاه</span>
                     <span class="shop-item-level" id="refineryLevel">0</span>
@@ -38,7 +38,7 @@
                 <button onclick="buyBuilding('refinery')" id="refineryBtn">ساخت</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="market-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🏪 بازارچه</span>
                     <span class="shop-item-level" id="marketLevel">0</span>
@@ -57,7 +57,7 @@
             <span>نیروی نظامی و انتظامی</span>
         </div>
         <div class="shop-grid">
-            <div class="shop-item">
+            <div class="shop-item" id="soldier-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🔫 سرباز</span>
                     <span class="shop-item-level" id="soldierLevel">0</span>
@@ -67,7 +67,7 @@
                 <button onclick="buyBuilding('soldier')" id="soldierBtn">استخدام</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="police-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">👮 پلیس</span>
                     <span class="shop-item-level" id="policeLevel">0</span>
@@ -77,7 +77,7 @@
                 <button onclick="buyBuilding('police')" id="policeBtn">استخدام</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="tank-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🚜 تانک</span>
                     <span class="shop-item-level" id="tankLevel">0</span>
@@ -96,7 +96,7 @@
             <span>نیروی هوایی</span>
         </div>
         <div class="shop-grid">
-            <div class="shop-item">
+            <div class="shop-item" id="fighterJet-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🛩 جنگنده</span>
                     <span class="shop-item-level" id="fighterJetLevel">0</span>
@@ -106,7 +106,7 @@
                 <button onclick="buyBuilding('fighterJet')" id="fighterJetBtn">خرید</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="bomber-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">💣 بمب‌افکن</span>
                     <span class="shop-item-level" id="bomberLevel">0</span>
@@ -116,7 +116,7 @@
                 <button onclick="buyBuilding('bomber')" id="bomberBtn">خرید</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="drone-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🚁 پهپاد</span>
                     <span class="shop-item-level" id="droneLevel">0</span>
@@ -135,7 +135,7 @@
             <span>حفاظت رئیس جمهور</span>
         </div>
         <div class="shop-grid">
-            <div class="shop-item">
+            <div class="shop-item" id="bodyguard-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🕴 محافظ</span>
                     <span class="shop-item-level" id="bodyguardLevel">0</span>
@@ -145,7 +145,7 @@
                 <button onclick="buyBuilding('bodyguard')" id="bodyguardBtn">استخدام</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="safeHouse-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🏠 خانه امن</span>
                     <span class="shop-item-level" id="safeHouseLevel">0</span>
@@ -155,7 +155,7 @@
                 <button onclick="buyBuilding('safeHouse')" id="safeHouseBtn">ساخت</button>
             </div>
             
-            <div class="shop-item">
+            <div class="shop-item" id="bunker-item">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🏛 پناهگاه</span>
                     <span class="shop-item-level" id="bunkerLevel">0</span>
@@ -175,135 +175,28 @@
 </div>
 
 <script>
-// تابع خرید ساختمان
-function buyBuilding(type) {
-    // قیمت‌ها
-    let costs = {
-        // تجهیزات درآمدزا
-        mine: 40,
-        farm: 30,
-        refinery: 50,
-        market: 60,
-        // سرباز و پلیس
-        soldier: 25,
-        police: 30,
-        tank: 80,
-        // جنگنده ها
-        fighterJet: 100,
-        bomber: 150,
-        drone: 70,
-        // حفاظت
-        bodyguard: 40,
-        safeHouse: 60,
-        bunker: 120
-    };
-    
-    // بررسی وجود type در ساختمان‌ها
-    if(!geoWarSave.buildings.hasOwnProperty(type)) {
-        geoWarSave.buildings[type] = 0;
-    }
-    
-    // بررسی حداکثر سطح
-    if(geoWarSave.buildings[type] >= 5) {
-        alert("⚠️ این آیتم به حداکثر سطح (۵) رسیده است!");
-        return;
-    }
-    
-    // بررسی هزینه طلا
-    if(geoWarSave.resources.gold < costs[type]) {
-        alert(`💰 طلا کافی نیست! نیاز: ${costs[type]} طلا`);
-        return;
-    }
-    
-    // بررسی هزینه نفت برای جنگنده‌ها
-    if(type === 'fighterJet' && geoWarSave.resources.oil < 5) {
-        alert("🛢 نفت کافی نیست! نیاز: ۵ نفت");
-        return;
-    }
-    if(type === 'bomber' && geoWarSave.resources.oil < 10) {
-        alert("🛢 نفت کافی نیست! نیاز: ۱۰ نفت");
-        return;
-    }
-    if(type === 'drone' && geoWarSave.resources.oil < 3) {
-        alert("🛢 نفت کافی نیست! نیاز: ۳ نفت");
-        return;
-    }
-    
-    // پرداخت هزینه
-    geoWarSave.resources.gold -= costs[type];
-    
-    // پرداخت هزینه نفت برای جنگنده‌ها
-    if(type === 'fighterJet') geoWarSave.resources.oil -= 5;
-    if(type === 'bomber') geoWarSave.resources.oil -= 10;
-    if(type === 'drone') geoWarSave.resources.oil -= 3;
-    
-    // افزایش سطح
-    geoWarSave.buildings[type]++;
-    
-    // اعمال اثرات
-    applyBuildingEffects(type);
-    
-    // ذخیره و بروزرسانی
-    saveGame();
-    updateUI();
-    updateShopUI();
-    
-    alert(`✅ ${getBuildingName(type)} با موفقیت ساخته شد! (سطح ${geoWarSave.buildings[type]})`);
-}
+// ==================== داده‌های متمرکز آیتم‌ها ====================
+const buildingData = {
+    // تجهیزات درآمدزا
+    mine: { gold: 40, oil: 0, effect: { gold: 5 } },
+    farm: { gold: 30, oil: 0, effect: { food: 10 } },
+    refinery: { gold: 50, oil: 0, effect: { oil: 8 } },
+    market: { gold: 60, oil: 0, effect: { priceBonus: 0.1 } },
+    // سرباز و پلیس
+    soldier: { gold: 25, oil: 0, effect: { power: 10, stability: -1 } },
+    police: { gold: 30, oil: 0, effect: { power: 5, stability: 5 } },
+    tank: { gold: 80, oil: 0, effect: { power: 25, stability: -3 } },
+    // جنگنده‌ها
+    fighterJet: { gold: 100, oil: 5, effect: { power: 20 } },
+    bomber: { gold: 150, oil: 10, effect: { power: 35 } },
+    drone: { gold: 70, oil: 3, effect: { power: 15 } },
+    // حفاظت
+    bodyguard: { gold: 40, oil: 0, effect: { stability: 2 } },
+    safeHouse: { gold: 60, oil: 0, effect: { stability: 3 } },
+    bunker: { gold: 120, oil: 0, effect: { revolutionProtection: 0.1 } }
+};
 
-// تابع اعمال اثرات ساختمان
-function applyBuildingEffects(type) {
-    switch(type) {
-        // تجهیزات درآمدزا (اثر در تولید خودکار اعمال میشه)
-        case 'mine':
-        case 'farm':
-        case 'refinery':
-        case 'market':
-            break;
-            
-        // سرباز و پلیس
-        case 'soldier':
-            geoWarSave.playerPower += 10;
-            geoWarSave.stability = Math.max(0, geoWarSave.stability - 1);
-            break;
-        case 'police':
-            geoWarSave.playerPower += 5;
-            geoWarSave.stability = Math.min(100, geoWarSave.stability + 5);
-            break;
-        case 'tank':
-            geoWarSave.playerPower += 25;
-            geoWarSave.stability = Math.max(0, geoWarSave.stability - 3);
-            break;
-            
-        // جنگنده ها
-        case 'fighterJet':
-            geoWarSave.playerPower += 20;
-            break;
-        case 'bomber':
-            geoWarSave.playerPower += 35;
-            break;
-        case 'drone':
-            geoWarSave.playerPower += 15;
-            break;
-            
-        // حفاظت
-        case 'bodyguard':
-            geoWarSave.stability = Math.min(100, geoWarSave.stability + 2);
-            break;
-        case 'safeHouse':
-            geoWarSave.stability = Math.min(100, geoWarSave.stability + 3);
-            break;
-        case 'bunker':
-            // اثر در زمان انقلاب اعمال میشه
-            break;
-    }
-    
-    // اعمال سقف قدرت
-    let powerCap = 300 + (geoWarSave.technology.military - 1) * 200;
-    geoWarSave.playerPower = Math.min(powerCap, geoWarSave.playerPower);
-}
-
-// تابع دریافت نام فارسی آیتم
+// ==================== نام‌های فارسی ====================
 function getBuildingName(type) {
     const names = {
         mine: '⛏ معدن',
@@ -323,7 +216,85 @@ function getBuildingName(type) {
     return names[type] || type;
 }
 
-// تابع بروزرسانی UI فروشگاه
+// ==================== اعمال اثرات ====================
+function applyBuildingEffects(type, effect) {
+    const powerCap = 300 + (geoWarSave.technology.military - 1) * 200;
+
+    if (effect.power) {
+        geoWarSave.playerPower = Math.min(powerCap, geoWarSave.playerPower + effect.power);
+    }
+    if (effect.stability) {
+        geoWarSave.stability = Math.min(100, Math.max(0, geoWarSave.stability + effect.stability));
+    }
+    if (effect.gold) {
+        // اثر لحظه‌ای تولید (مثلاً معدن) – در تولید خودکار هم اعمال می‌شود
+        geoWarSave.resources.gold += effect.gold;
+    }
+    if (effect.food) {
+        geoWarSave.resources.food += effect.food;
+    }
+    if (effect.oil) {
+        geoWarSave.resources.oil += effect.oil;
+    }
+    if (effect.priceBonus) {
+        // ذخیره در gameState برای استفاده در بازار
+        geoWarSave.priceBonus = (geoWarSave.priceBonus || 1) + effect.priceBonus;
+    }
+    if (effect.revolutionProtection) {
+        geoWarSave.revolutionProtection = (geoWarSave.revolutionProtection || 0) + effect.revolutionProtection;
+    }
+}
+
+// ==================== خرید اصلی ====================
+function buyBuilding(type) {
+    const data = buildingData[type];
+    if (!data) return;
+
+    // اطمینان از وجود ساختمان
+    if (!geoWarSave.buildings.hasOwnProperty(type)) {
+        geoWarSave.buildings[type] = 0;
+    }
+
+    // بررسی حداکثر سطح
+    if (geoWarSave.buildings[type] >= 5) {
+        showGameMessage("⚠️ این آیتم به حداکثر سطح (۵) رسیده است!", true);
+        return;
+    }
+
+    // بررسی منابع
+    if (geoWarSave.resources.gold < data.gold) {
+        showGameMessage(`💰 طلا کافی نیست! نیاز: ${data.gold} طلا`, true);
+        return;
+    }
+    if (geoWarSave.resources.oil < data.oil) {
+        showGameMessage(`🛢 نفت کافی نیست! نیاز: ${data.oil} نفت`, true);
+        return;
+    }
+
+    // پرداخت
+    geoWarSave.resources.gold -= data.gold;
+    geoWarSave.resources.oil -= data.oil;
+    geoWarSave.buildings[type]++;
+
+    // اعمال اثرات
+    applyBuildingEffects(type, data.effect);
+
+    // ذخیره و بروزرسانی
+    saveGame();
+    updateUI();
+    updateShopUI();
+
+    // انیمیشن خرید
+    const itemElem = document.getElementById(type + '-item');
+    if (itemElem) {
+        itemElem.classList.add('upgrade');
+        setTimeout(() => itemElem.classList.remove('upgrade'), 500);
+    }
+
+    showGameMessage(`✅ ${getBuildingName(type)} با موفقیت ساخته شد! (سطح ${geoWarSave.buildings[type]})`);
+}
+
+// ==================== بروزرسانی رابط فروشگاه ====================
 function updateShopUI() {
     // بروزرسانی سطوح
     document.getElementById('mineLevel').innerText = geoWarSave.buildings.mine || 0;
@@ -342,53 +313,32 @@ function updateShopUI() {
     document.getElementById('bodyguardLevel').innerText = geoWarSave.buildings.bodyguard || 0;
     document.getElementById('safeHouseLevel').innerText = geoWarSave.buildings.safeHouse || 0;
     document.getElementById('bunkerLevel').innerText = geoWarSave.buildings.bunker || 0;
-    
-    // غیرفعال کردن دکمه‌های سطح ۵
-    document.getElementById('mineBtn').disabled = (geoWarSave.buildings.mine || 0) >= 5 || geoWarSave.resources.gold < 40;
-    document.getElementById('farmBtn').disabled = (geoWarSave.buildings.farm || 0) >= 5 || geoWarSave.resources.gold < 30;
-    document.getElementById('refineryBtn').disabled = (geoWarSave.buildings.refinery || 0) >= 5 || geoWarSave.resources.gold < 50;
-    document.getElementById('marketBtn').disabled = (geoWarSave.buildings.market || 0) >= 5 || geoWarSave.resources.gold < 60;
-    
-    document.getElementById('soldierBtn').disabled = (geoWarSave.buildings.soldier || 0) >= 5 || geoWarSave.resources.gold < 25;
-    document.getElementById('policeBtn').disabled = (geoWarSave.buildings.police || 0) >= 5 || geoWarSave.resources.gold < 30;
-    document.getElementById('tankBtn').disabled = (geoWarSave.buildings.tank || 0) >= 5 || geoWarSave.resources.gold < 80;
-    
-    document.getElementById('fighterJetBtn').disabled = (geoWarSave.buildings.fighterJet || 0) >= 5 || geoWarSave.resources.gold < 100 || geoWarSave.resources.oil < 5;
-    document.getElementById('bomberBtn').disabled = (geoWarSave.buildings.bomber || 0) >= 5 || geoWarSave.resources.gold < 150 || geoWarSave.resources.oil < 10;
-    document.getElementById('droneBtn').disabled = (geoWarSave.buildings.drone || 0) >= 5 || geoWarSave.resources.gold < 70 || geoWarSave.resources.oil < 3;
-    
-    document.getElementById('bodyguardBtn').disabled = (geoWarSave.buildings.bodyguard || 0) >= 5 || geoWarSave.resources.gold < 40;
-    document.getElementById('safeHouseBtn').disabled = (geoWarSave.buildings.safeHouse || 0) >= 5 || geoWarSave.resources.gold < 60;
-    document.getElementById('bunkerBtn').disabled = (geoWarSave.buildings.bunker || 0) >= 5 || geoWarSave.resources.gold < 120;
+
+    // غیرفعال کردن دکمه‌ها بر اساس سطح و منابع
+    for (const [type, data] of Object.entries(buildingData)) {
+        const btn = document.getElementById(type + 'Btn');
+        if (!btn) continue;
+        const level = geoWarSave.buildings[type] || 0;
+        const goldOk = geoWarSave.resources.gold >= data.gold;
+        const oilOk = geoWarSave.resources.oil >= data.oil;
+        btn.disabled = (level >= 5) || !goldOk || !oilOk;
+    }
 }
 
-// اضافه کردن افکت ساختمان‌ها به تولید خودکار (این تابع در کد اصلی باید فراخوانی بشه)
+// ==================== تابع کمکی برای دریافت پاداش تولید (اختیاری) ====================
 function getProductionBonus() {
-    let bonus = {
+    return {
         gold: 1 + (geoWarSave.buildings.mine || 0) * 0.5,
         food: 1 + (geoWarSave.buildings.farm || 0) * 0.5,
         oil: 1 + (geoWarSave.buildings.refinery || 0) * 0.5,
         price: 1 + (geoWarSave.buildings.market || 0) * 0.1
     };
-    return bonus;
 }
 
-// اضافه کردن افکت محافظت در حمله
-function getDefenseBonus() {
-    let reduction = 1 - ((geoWarSave.buildings.bodyguard || 0) * 0.04); // هر محافظ ۴٪ کاهش تلفات
-    return Math.max(0.5, reduction); // حداکثر ۵۰٪ کاهش
-}
-
-// اضافه کردن افکت پناهگاه در انقلاب
-function getRevolutionProtection() {
-    let protection = (geoWarSave.buildings.bunker || 0) * 0.1; // هر پناهگاه ۱۰٪ محافظت
-    return Math.min(0.5, protection); // حداکثر ۵۰٪
-}
-
-// بروزرسانی اولیه
+// ==================== اجرای اولیه ====================
 updateShopUI();
 
-// هر ۵ ثانیه یکبار بروزرسانی خودکار (برای غیرفعال شدن دکمه‌ها)
+// بروزرسانی خودکار هر ۵ ثانیه
 setInterval(updateShopUI, 5000);
 </script>
 
@@ -517,6 +467,17 @@ setInterval(updateShopUI, 5000);
     opacity: 0.5;
 }
 
+/* انیمیشن خرید */
+@keyframes upgradeFlash {
+    0% { background-color: #1e293b; }
+    50% { background-color: #2563eb; }
+    100% { background-color: #1e293b; }
+}
+
+.shop-item.upgrade {
+    animation: upgradeFlash 0.5s ease-in-out;
+}
+
 /* استایل برای موبایل */
 @media (max-width: 768px) {
     .shop-grid {
@@ -526,6 +487,11 @@ setInterval(updateShopUI, 5000);
     .modal-content {
         margin: 10px;
         padding: 15px;
+    }
+
+    .shop-item button {
+        padding: 12px;
+        font-size: 16px;
     }
 }
 </style>
