@@ -1,6 +1,9 @@
 <div style="padding: 20px;">
     <h2 style="color: #fbbf24; margin-bottom: 30px;">💰 بازار جهانی نفت</h2>
     
+    <!-- پیام‌رسان موقت -->
+    <div id="marketMessage" style="text-align:center; color:#fbbf24; margin-bottom:10px; min-height:24px; transition:opacity 0.3s;"></div>
+    
     <div style="background: linear-gradient(135deg, #1e293b, #2d3a4e); padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px;">
         <div style="font-size: 48px; color: #fbbf24; margin-bottom: 10px;" id="oilPrice">100</div>
         <div style="font-size: 18px; color: #94a3b8;">قیمت هر بشکه (طلا)</div>
@@ -18,39 +21,134 @@
         </div>
     </div>
 
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
+    <!-- وضعیت منابع بازیکن -->
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; color: #94a3b8;">
+            <span>🛢 موجودی نفت: <span id="oilAmount" style="color:#fbbf24;">0</span> بشکه</span>
+            <span>🪙 طلای موجود: <span id="goldAmount" style="color:#4ade80;">0</span></span>
+        </div>
+    </div>
+
+    <!-- بخش فروش نفت -->
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
         <h3 style="color: white; margin-bottom: 20px;">💰 فروش نفت</h3>
-        <div style="margin-bottom: 20px; color: #94a3b8;">موجودی: <span id="oilAmount">0</span> بشکه</div>
-        
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button onclick="sellOil(10)" style="background: #16a34a;">فروش ۱۰ نفت</button>
-            <button onclick="sellOil(50)" style="background: #16a34a;">فروش ۵۰ نفت</button>
-            <button onclick="sellOil(100)" style="background: #16a34a;">فروش ۱۰۰ نفت</button>
-            <button onclick="sellOil(500)" style="background: #16a34a;">فروش ۵۰۰ نفت</button>
+            <button onclick="sellOil(10)" style="background: #16a34a;" id="sell10">فروش ۱۰ نفت</button>
+            <button onclick="sellOil(50)" style="background: #16a34a;" id="sell50">فروش ۵۰ نفت</button>
+            <button onclick="sellOil(100)" style="background: #16a34a;" id="sell100">فروش ۱۰۰ نفت</button>
+            <button onclick="sellOil(500)" style="background: #16a34a;" id="sell500">فروش ۵۰۰ نفت</button>
+        </div>
+    </div>
+
+    <!-- بخش خرید نفت (جدید) -->
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
+        <h3 style="color: white; margin-bottom: 20px;">🛢 خرید نفت</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button onclick="buyOil(10)" style="background: #2563eb;" id="buy10">خرید ۱۰ نفت</button>
+            <button onclick="buyOil(50)" style="background: #2563eb;" id="buy50">خرید ۵۰ نفت</button>
+            <button onclick="buyOil(100)" style="background: #2563eb;" id="buy100">خرید ۱۰۰ نفت</button>
+            <button onclick="buyOil(500)" style="background: #2563eb;" id="buy500">خرید ۵۰۰ نفت</button>
         </div>
     </div>
 </div>
 
 <script>
+// تابع نمایش پیام درون صفحه
+function showMessage(text, isError = false) {
+    const box = document.getElementById('marketMessage');
+    box.textContent = text;
+    box.style.color = isError ? '#f87171' : '#fbbf24';
+    box.style.opacity = '1';
+    setTimeout(() => { box.style.opacity = '0'; }, 2500);
+}
+
+// تابع به‌روزرسانی نمایش منابع و قیمت
+function updateMarketUI() {
+    if (!geoWarSave) return;
+    
+    // نمایش منابع
+    document.getElementById('oilAmount').innerText = Math.floor(geoWarSave.resources.oil);
+    document.getElementById('goldAmount').innerText = Math.floor(geoWarSave.resources.gold);
+    
+    // نمایش قیمت و اطلاعات بازار
+    document.getElementById('oilPrice').innerText = geoWarSave.market?.oilPrice || 100;
+    document.getElementById('globalSupply').innerText = geoWarSave.market?.globalSupply || 1000;
+    document.getElementById('globalEvent').innerText = geoWarSave.market?.event || 'عادی';
+    
+    // آیکون روند
+    const trend = geoWarSave.market?.trend || '⚖';
+    document.getElementById('priceTrend').innerText = trend + ' ' + 
+        (trend === '📈' ? 'صعودی' : trend === '📉' ? 'نزولی' : 'ثابت');
+    
+    // غیرفعال کردن دکمه‌ها بر اساس منابع (اختیاری)
+    const price = geoWarSave.market?.oilPrice || 100;
+    
+    // دکمه‌های فروش: نیاز به نفت کافی
+    document.getElementById('sell10').disabled = geoWarSave.resources.oil < 10;
+    document.getElementById('sell50').disabled = geoWarSave.resources.oil < 50;
+    document.getElementById('sell100').disabled = geoWarSave.resources.oil < 100;
+    document.getElementById('sell500').disabled = geoWarSave.resources.oil < 500;
+    
+    // دکمه‌های خرید: نیاز به طلای کافی (با احتساب قیمت)
+    const costFor10 = Math.floor(10 * price / 10); // همان formula
+    const costFor50 = Math.floor(50 * price / 10);
+    const costFor100 = Math.floor(100 * price / 10);
+    const costFor500 = Math.floor(500 * price / 10);
+    
+    document.getElementById('buy10').disabled = geoWarSave.resources.gold < costFor10;
+    document.getElementById('buy50').disabled = geoWarSave.resources.gold < costFor50;
+    document.getElementById('buy100').disabled = geoWarSave.resources.gold < costFor100;
+    document.getElementById('buy500').disabled = geoWarSave.resources.gold < costFor500;
+}
+
+// تابع فروش نفت
 function sellOil(amount) {
-    if(geoWarSave.resources.oil < amount) {
-        alert("نفت کافی نیست!");
+    if (!geoWarSave) return;
+    
+    if (geoWarSave.resources.oil < amount) {
+        showMessage("❌ نفت کافی نیست!", true);
         return;
     }
     
     let price = geoWarSave.market.oilPrice;
-    let income = amount * price / 10;
+    let income = amount * price / 10; // مطابق فرمول قبلی
     
     geoWarSave.resources.oil -= amount;
     geoWarSave.resources.gold += Math.floor(income);
     
     saveGame();
-    updateUI();
-    alert(`💰 ${amount} نفت فروخته شد! +${Math.floor(income)} طلا`);
+    if (typeof updateUI === 'function') updateUI();
+    updateMarketUI();
+    
+    showMessage(`💰 ${amount} نفت فروخته شد! +${Math.floor(income)} طلا`);
 }
 
-// بروزرسانی بازار
+// تابع خرید نفت (جدید)
+function buyOil(amount) {
+    if (!geoWarSave) return;
+    
+    let price = geoWarSave.market.oilPrice;
+    let cost = Math.floor(amount * price / 10); // مطابق فرمول فروش
+    
+    if (geoWarSave.resources.gold < cost) {
+        showMessage("❌ طلا کافی نیست!", true);
+        return;
+    }
+    
+    geoWarSave.resources.gold -= cost;
+    geoWarSave.resources.oil += amount;
+    
+    saveGame();
+    if (typeof updateUI === 'function') updateUI();
+    updateMarketUI();
+    
+    showMessage(`🛢 ${amount} نفت خریداری شد! -${cost} طلا`);
+}
+
+// بروزرسانی بازار (مشابه قبل با تغییرات جزئی)
 function updateMarket() {
+    if (!geoWarSave || !geoWarSave.market) return;
+    
     let supply = geoWarSave.market.globalSupply;
     let demand = 1000 + Math.random() * 200 - 100;
     
@@ -60,19 +158,52 @@ function updateMarket() {
     let priceChange = (demand - supply) / 100;
     let trendIcon = "⚖";
     
-    if(event === "جنگ جهانی") { priceChange += 50; trendIcon = "📈"; }
-    if(event === "بحران نفت") { priceChange += 80; trendIcon = "📈"; }
-    if(event === "توافق اوپک") { priceChange += 30; trendIcon = "📈"; }
-    if(event === "رکود اقتصادی") { priceChange -= 40; trendIcon = "📉"; }
+    if (event === "جنگ جهانی") { priceChange += 50; trendIcon = "📈"; }
+    if (event === "بحران نفت") { priceChange += 80; trendIcon = "📈"; }
+    if (event === "توافق اوپک") { priceChange += 30; trendIcon = "📈"; }
+    if (event === "رکود اقتصادی") { priceChange -= 40; trendIcon = "📉"; }
     
     geoWarSave.market.oilPrice = Math.max(30, Math.min(300, geoWarSave.market.oilPrice + priceChange));
     geoWarSave.market.globalSupply = Math.floor(800 + Math.random() * 400);
     geoWarSave.market.event = event;
+    geoWarSave.market.trend = trendIcon;
     
-    document.getElementById('priceTrend').innerText = trendIcon + " " + 
-        (priceChange > 0 ? "صعودی" : priceChange < 0 ? "نزولی" : "ثابت");
+    updateMarketUI();
 }
 
-// آپدیت هر ۱۰ ثانیه
-setInterval(updateMarket, 10000);
+// ذخیره‌سازی (اگر تابع سراسری saveGame وجود نداشته باشد، یک جایگزین محلی)
+if (typeof saveGame !== 'function') {
+    window.saveGame = function() {
+        try {
+            localStorage.setItem('geoWarSave', JSON.stringify(geoWarSave));
+        } catch (e) {}
+    };
+}
+
+// اجرای اولیه و تنظیم آپدیت خودکار
+updateMarketUI();
+setInterval(updateMarket, 10000); // هر ۱۰ ثانیه یکبار
 </script>
+
+<style>
+/* استایل دکمه‌های غیرفعال */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #4b5563 !important;
+}
+button {
+    transition: 0.2s;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+button:hover:not(:disabled) {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+</style>
