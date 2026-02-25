@@ -1,9 +1,10 @@
 <div style="padding: 20px;">
     <h2 style="color: #60a5fa; margin-bottom: 30px; text-align: center;">🏪 فروشگاه تجهیزات</h2>
     
+    <!-- بخش‌های قبلی (دسته‌های درآمدزا، نظامی، هوایی، حفاظت) به همان صورت باقی می‌مانند -->
     <!-- بخش 1: تجهیزات درآمدزا -->
     <div class="shop-category">
-        <div class="category-title">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
             <span class="emoji">💰</span>
             <span>تجهیزات درآمدزا</span>
         </div>
@@ -52,7 +53,7 @@
     
     <!-- بخش 2: سرباز و پلیس -->
     <div class="shop-category">
-        <div class="category-title">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
             <span class="emoji">👮</span>
             <span>نیروی نظامی و انتظامی</span>
         </div>
@@ -91,7 +92,7 @@
     
     <!-- بخش 3: جنگنده ها -->
     <div class="shop-category">
-        <div class="category-title">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
             <span class="emoji">✈️</span>
             <span>نیروی هوایی</span>
         </div>
@@ -130,7 +131,7 @@
     
     <!-- بخش 4: حفاظت رئیس جمهور -->
     <div class="shop-category">
-        <div class="category-title">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
             <span class="emoji">🛡️</span>
             <span>حفاظت رئیس جمهور</span>
         </div>
@@ -166,15 +167,469 @@
             </div>
         </div>
     </div>
-    
+
+    <hr style="margin: 30px 0;">
+
+    <!-- ========== دسته‌های جدید ========== -->
+    <!-- دسته تانک‌ها -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🪖</span>
+            <span>تانک‌های ریاست‌جمهوری</span>
+        </div>
+        <div class="shop-grid">
+            <!-- لیست تانک‌ها -->
+            <div class="shop-item" id="tank_abrams">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇺🇸 M1A2 Abrams</span>
+                    <span class="shop-item-level" id="abramsLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۹۵</div>
+                <div class="shop-item-price">💰 ۴۰ طلا</div>
+                <button onclick="buyBuilding('tank_abrams')" id="abramsBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_leopard">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇩🇪 Leopard 2A7</span>
+                    <span class="shop-item-level" id="leopardLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۹۲</div>
+                <div class="shop-item-price">💰 ۳۸ طلا</div>
+                <button onclick="buyBuilding('tank_leopard')" id="leopardBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_t90">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇷🇺 T-90</span>
+                    <span class="shop-item-level" id="t90Level">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۸۵</div>
+                <div class="shop-item-price">💰 ۳۰ طلا</div>
+                <button onclick="buyBuilding('tank_t90')" id="t90Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_challenger">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇬🇧 Challenger 2</span>
+                    <span class="shop-item-level" id="challengerLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۸۸</div>
+                <div class="shop-item-price">💰 ۳۴ طلا</div>
+                <button onclick="buyBuilding('tank_challenger')" id="challengerBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_k2">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇰🇷 K2 Black Panther</span>
+                    <span class="shop-item-level" id="k2Level">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۹۷</div>
+                <div class="shop-item-price">💰 ۴۲ طلا</div>
+                <button onclick="buyBuilding('tank_k2')" id="k2Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_type99">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇨🇳 Type 99</span>
+                    <span class="shop-item-level" id="type99Level">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۸۶</div>
+                <div class="shop-item-price">💰 ۳۲ طلا</div>
+                <button onclick="buyBuilding('tank_type99')" id="type99Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_merkava">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇮🇱 Merkava Mk4</span>
+                    <span class="shop-item-level" id="merkavaLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۹۰</div>
+                <div class="shop-item-price">💰 ۳۶ طلا</div>
+                <button onclick="buyBuilding('tank_merkava')" id="merkavaBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_leclerc">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇫🇷 Leclerc</span>
+                    <span class="shop-item-level" id="leclercLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۸۹</div>
+                <div class="shop-item-price">💰 ۳۵ طلا</div>
+                <button onclick="buyBuilding('tank_leclerc')" id="leclercBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_armata">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇷🇺 T-14 Armata</span>
+                    <span class="shop-item-level" id="armataLevel">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۱۰۰</div>
+                <div class="shop-item-price">💰 ۴۵ طلا</div>
+                <button onclick="buyBuilding('tank_armata')" id="armataBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="tank_m60">
+                <div class="shop-item-header">
+                    <span class="shop-item-name">🇺🇸 M60 Patton</span>
+                    <span class="shop-item-level" id="m60Level">0</span>
+                </div>
+                <div class="shop-item-desc">⚔ قدرت ۶۰</div>
+                <div class="shop-item-price">💰 ۱۸ طلا</div>
+                <button onclick="buyBuilding('tank_m60')" id="m60Btn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته جنگنده‌ها -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">✈️</span>
+            <span>جنگنده‌های راهبردی</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="fighter_f35">
+                <div class="shop-item-header"><span class="shop-item-name">🇺🇸 F-35</span><span class="shop-item-level" id="f35Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۰۰</div><div class="shop-item-price">💰 ۷۵ طلا</div><button onclick="buyBuilding('fighter_f35')" id="f35Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_su57">
+                <div class="shop-item-header"><span class="shop-item-name">🇷🇺 Su-57</span><span class="shop-item-level" id="su57Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۷</div><div class="shop-item-price">💰 ۷۰ طلا</div><button onclick="buyBuilding('fighter_su57')" id="su57Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_f22">
+                <div class="shop-item-header"><span class="shop-item-name">🇺🇸 F-22</span><span class="shop-item-level" id="f22Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۰۵</div><div class="shop-item-price">💰 ۸۵ طلا</div><button onclick="buyBuilding('fighter_f22')" id="f22Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_f16">
+                <div class="shop-item-header"><span class="shop-item-name">🇺🇸 F-16</span><span class="shop-item-level" id="f16Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۵</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('fighter_f16')" id="f16Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_rafale">
+                <div class="shop-item-header"><span class="shop-item-name">🇫🇷 Rafale</span><span class="shop-item-level" id="rafaleLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۸</div><div class="shop-item-price">💰 ۵۵ طلا</div><button onclick="buyBuilding('fighter_rafale')" id="rafaleBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_typhoon">
+                <div class="shop-item-header"><span class="shop-item-name">🇪🇺 Eurofighter</span><span class="shop-item-level" id="typhoonLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۰</div><div class="shop-item-price">💰 ۶۰ طلا</div><button onclick="buyBuilding('fighter_typhoon')" id="typhoonBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_j20">
+                <div class="shop-item-header"><span class="shop-item-name">🇨🇳 J-20</span><span class="shop-item-level" id="j20Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۵</div><div class="shop-item-price">💰 ۶۸ طلا</div><button onclick="buyBuilding('fighter_j20')" id="j20Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_su35">
+                <div class="shop-item-header"><span class="shop-item-name">🇷🇺 Su-35</span><span class="shop-item-level" id="su35Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۹</div><div class="shop-item-price">💰 ۵۸ طلا</div><button onclick="buyBuilding('fighter_su35')" id="su35Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_mig29">
+                <div class="shop-item-header"><span class="shop-item-name">🇷🇺 MiG-29</span><span class="shop-item-level" id="mig29Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۲</div><div class="shop-item-price">💰 ۳۰ طلا</div><button onclick="buyBuilding('fighter_mig29')" id="mig29Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="fighter_gripen">
+                <div class="shop-item-header"><span class="shop-item-name">🇸🇪 Gripen</span><span class="shop-item-level" id="gripenLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۰</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('fighter_gripen')" id="gripenBtn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته ناوگان دریایی -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🚢</span>
+            <span>ناوگان دریایی</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="naval_carrier">
+                <div class="shop-item-header"><span class="shop-item-name">ناو هواپیمابر</span><span class="shop-item-level" id="carrierLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۵۰</div><div class="shop-item-price">💰 ۱۵۰ طلا</div><button onclick="buyBuilding('naval_carrier')" id="carrierBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_destroyer">
+                <div class="shop-item-header"><span class="shop-item-name">ناوشکن</span><span class="shop-item-level" id="destroyerLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۰</div><div class="shop-item-price">💰 ۶۵ طلا</div><button onclick="buyBuilding('naval_destroyer')" id="destroyerBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_battleship">
+                <div class="shop-item-header"><span class="shop-item-name">رزم‌ناو</span><span class="shop-item-level" id="battleshipLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۱۰</div><div class="shop-item-price">💰 ۸۰ طلا</div><button onclick="buyBuilding('naval_battleship')" id="battleshipBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_sub_nuke">
+                <div class="shop-item-header"><span class="shop-item-name">زیردریایی هسته‌ای</span><span class="shop-item-level" id="subNukeLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۴۰</div><div class="shop-item-price">💰 ۱۲۰ طلا</div><button onclick="buyBuilding('naval_sub_nuke')" id="subNukeBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_sub_diesel">
+                <div class="shop-item-header"><span class="shop-item-name">زیردریایی دیزلی</span><span class="shop-item-level" id="subDieselLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۵</div><div class="shop-item-price">💰 ۶۰ طلا</div><button onclick="buyBuilding('naval_sub_diesel')" id="subDieselBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_frigate">
+                <div class="shop-item-header"><span class="shop-item-name">ناوچه</span><span class="shop-item-level" id="frigateLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۶۰</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('naval_frigate')" id="frigateBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_missileboat">
+                <div class="shop-item-header"><span class="shop-item-name">قایق موشک‌انداز</span><span class="shop-item-level" id="missileboatLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۵۰</div><div class="shop-item-price">💰 ۲۵ طلا</div><button onclick="buyBuilding('naval_missileboat')" id="missileboatBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_support">
+                <div class="shop-item-header"><span class="shop-item-name">کشتی پشتیبانی</span><span class="shop-item-level" id="supportLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۳۰</div><div class="shop-item-price">💰 ۳۰ طلا</div><button onclick="buyBuilding('naval_support')" id="supportBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_amphibious">
+                <div class="shop-item-header"><span class="shop-item-name">ناو آبی‌خاکی</span><span class="shop-item-level" id="amphibiousLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۵</div><div class="shop-item-price">💰 ۷۰ طلا</div><button onclick="buyBuilding('naval_amphibious')" id="amphibiousBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="naval_minesweeper">
+                <div class="shop-item-header"><span class="shop-item-name">مین‌روب</span><span class="shop-item-level" id="minesweeperLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۲۵</div><div class="shop-item-price">💰 ۲۰ طلا</div><button onclick="buyBuilding('naval_minesweeper')" id="minesweeperBtn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته موشک‌ها -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🚀</span>
+            <span>موشک‌های راهبردی</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="missile_icbm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک بالستیک قاره‌پیما</span><span class="shop-item-level" id="icbmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۲۰۰</div><div class="shop-item-price">💰 ۱۲۰ طلا</div><button onclick="buyBuilding('missile_icbm')" id="icbmBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_irbm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک بالستیک میان‌برد</span><span class="shop-item-level" id="irbmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۱۵۰</div><div class="shop-item-price">💰 ۸۰ طلا</div><button onclick="buyBuilding('missile_irbm')" id="irbmBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_cruise">
+                <div class="shop-item-header"><span class="shop-item-name">موشک کروز</span><span class="shop-item-level" id="cruiseLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۵</div><div class="shop-item-price">💰 ۵۰ طلا</div><button onclick="buyBuilding('missile_cruise')" id="cruiseBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_srbm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک کوتاه‌برد</span><span class="shop-item-level" id="srbmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۵۰</div><div class="shop-item-price">💰 ۲۵ طلا</div><button onclick="buyBuilding('missile_srbm')" id="srbmBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_asm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک ضدکشتی</span><span class="shop-item-level" id="asmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۵</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('missile_asm')" id="asmBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_atgm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک ضدتانک</span><span class="shop-item-level" id="atgmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۳۵</div><div class="shop-item-price">💰 ۱۰ طلا</div><button onclick="buyBuilding('missile_atgm')" id="atgmBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_mlrs">
+                <div class="shop-item-header"><span class="shop-item-name">راکت‌انداز سنگین</span><span class="shop-item-level" id="mlrsLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۰</div><div class="shop-item-price">💰 ۳۰ طلا</div><button onclick="buyBuilding('missile_mlrs')" id="mlrsBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_tactical">
+                <div class="shop-item-header"><span class="shop-item-name">موشک تاکتیکی</span><span class="shop-item-level" id="tacticalLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۵</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('missile_tactical')" id="tacticalBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_aam">
+                <div class="shop-item-header"><span class="shop-item-name">موشک هوا به هوا</span><span class="shop-item-level" id="aamLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۶۰</div><div class="shop-item-price">💰 ۲۰ طلا</div><button onclick="buyBuilding('missile_aam')" id="aamBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="missile_agm">
+                <div class="shop-item-header"><span class="shop-item-name">موشک هوا به زمین</span><span class="shop-item-level" id="agmLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۰</div><div class="shop-item-price">💰 ۲۸ طلا</div><button onclick="buyBuilding('missile_agm')" id="agmBtn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته پدافند هوایی -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🛡</span>
+            <span>سامانه‌های پدافندی</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="defense_s400">
+                <div class="shop-item-header"><span class="shop-item-name">S-400</span><span class="shop-item-level" id="s400Level">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۱۵۰</div><div class="shop-item-price">💰 ۸۵ طلا</div><button onclick="buyBuilding('defense_s400')" id="s400Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_patriot">
+                <div class="shop-item-header"><span class="shop-item-name">Patriot</span><span class="shop-item-level" id="patriotLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۱۴۰</div><div class="shop-item-price">💰 ۸۰ طلا</div><button onclick="buyBuilding('defense_patriot')" id="patriotBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_shorad">
+                <div class="shop-item-header"><span class="shop-item-name">پدافند کوتاه‌برد</span><span class="shop-item-level" id="shoradLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۵۰</div><div class="shop-item-price">💰 ۲۵ طلا</div><button onclick="buyBuilding('defense_shorad')" id="shoradBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_cua">
+                <div class="shop-item-header"><span class="shop-item-name">سامانه ضدپهپاد</span><span class="shop-item-level" id="cuaLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۴۵</div><div class="shop-item-price">💰 ۲۰ طلا</div><button onclick="buyBuilding('defense_cua')" id="cuaBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_laser">
+                <div class="shop-item-header"><span class="shop-item-name">سامانه لیزری</span><span class="shop-item-level" id="laserLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۱۰۰</div><div class="shop-item-price">💰 ۶۰ طلا</div><button onclick="buyBuilding('defense_laser')" id="laserBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_radar">
+                <div class="shop-item-header"><span class="shop-item-name">سامانه راداری پیشرفته</span><span class="shop-item-level" id="radarLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۷۰</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('defense_radar')" id="radarBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_mobile">
+                <div class="shop-item-header"><span class="shop-item-name">پدافند متحرک</span><span class="shop-item-level" id="mobileDefenseLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۶۵</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('defense_mobile')" id="mobileDefenseBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_dome">
+                <div class="shop-item-header"><span class="shop-item-name">گنبد دفاعی</span><span class="shop-item-level" id="domeLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۱۶۰</div><div class="shop-item-price">💰 ۹۰ طلا</div><button onclick="buyBuilding('defense_dome')" id="domeBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_coastal">
+                <div class="shop-item-header"><span class="shop-item-name">سامانه موشکی ساحلی</span><span class="shop-item-level" id="coastalLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۷۵</div><div class="shop-item-price">💰 ۴۵ طلا</div><button onclick="buyBuilding('defense_coastal')" id="coastalBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="defense_aaa">
+                <div class="shop-item-header"><span class="shop-item-name">توپ ضد هوایی</span><span class="shop-item-level" id="aaaLevel">0</span></div>
+                <div class="shop-item-desc">🛡 قدرت ۳۰</div><div class="shop-item-price">💰 ۱۵ طلا</div><button onclick="buyBuilding('defense_aaa')" id="aaaBtn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته بالگردها -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🚁</span>
+            <span>بالگردهای تهاجمی و پشتیبانی</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="heli_apache">
+                <div class="shop-item-header"><span class="shop-item-name">Apache</span><span class="shop-item-level" id="apacheLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۹۰</div><div class="shop-item-price">💰 ۵۰ طلا</div><button onclick="buyBuilding('heli_apache')" id="apacheBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_mi28">
+                <div class="shop-item-header"><span class="shop-item-name">Mi-28</span><span class="shop-item-level" id="mi28Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۵</div><div class="shop-item-price">💰 ۴۵ طلا</div><button onclick="buyBuilding('heli_mi28')" id="mi28Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_ka52">
+                <div class="shop-item-header"><span class="shop-item-name">Ka-52</span><span class="shop-item-level" id="ka52Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۸</div><div class="shop-item-price">💰 ۴۸ طلا</div><button onclick="buyBuilding('heli_ka52')" id="ka52Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_blackhawk">
+                <div class="shop-item-header"><span class="shop-item-name">Black Hawk</span><span class="shop-item-level" id="blackhawkLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۶۰</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('heli_blackhawk')" id="blackhawkBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_chinook">
+                <div class="shop-item-header"><span class="shop-item-name">Chinook</span><span class="shop-item-level" id="chinookLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۵۵</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('heli_chinook')" id="chinookBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_tiger">
+                <div class="shop-item-header"><span class="shop-item-name">Tiger</span><span class="shop-item-level" id="tigerLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۸۰</div><div class="shop-item-price">💰 ۴۲ طلا</div><button onclick="buyBuilding('heli_tiger')" id="tigerBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_z10">
+                <div class="shop-item-header"><span class="shop-item-name">Z-10</span><span class="shop-item-level" id="z10Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۷۵</div><div class="shop-item-price">💰 ۳۸ طلا</div><button onclick="buyBuilding('heli_z10')" id="z10Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_cobra">
+                <div class="shop-item-header"><span class="shop-item-name">Cobra</span><span class="shop-item-level" id="cobraLevel">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۶۵</div><div class="shop-item-price">💰 ۲۸ طلا</div><button onclick="buyBuilding('heli_cobra')" id="cobraBtn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_nh90">
+                <div class="shop-item-header"><span class="shop-item-name">NH90</span><span class="shop-item-level" id="nh90Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۵۰</div><div class="shop-item-price">💰 ۳۰ طلا</div><button onclick="buyBuilding('heli_nh90')" id="nh90Btn">خرید</button>
+            </div>
+            <div class="shop-item" id="heli_mi17">
+                <div class="shop-item-header"><span class="shop-item-name">Mi-17</span><span class="shop-item-level" id="mi17Level">0</span></div>
+                <div class="shop-item-desc">⚔ قدرت ۴۵</div><div class="shop-item-price">💰 ۲۵ طلا</div><button onclick="buyBuilding('heli_mi17')" id="mi17Btn">خرید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته پلیس ویژه (غیرسطحی) -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">👮</span>
+            <span>پلیس و یگان‌های ویژه</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="police_med">
+                <div class="shop-item-header"><span class="shop-item-name">پلیس متوسط</span><span class="shop-item-level" id="policeMedLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۴۰</div><div class="shop-item-price">💰 ۱۵ طلا</div><button onclick="buyBuilding('police_med')" id="policeMedBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_riot">
+                <div class="shop-item-header"><span class="shop-item-name">ضدشورش</span><span class="shop-item-level" id="riotLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۷۵</div><div class="shop-item-price">💰 ۳۰ طلا</div><button onclick="buyBuilding('police_riot')" id="riotBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_swat">
+                <div class="shop-item-header"><span class="shop-item-name">ویژه (SWAT)</span><span class="shop-item-level" id="swatLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۹۰</div><div class="shop-item-price">💰 ۴۵ طلا</div><button onclick="buyBuilding('police_swat')" id="swatBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_ct">
+                <div class="shop-item-header"><span class="shop-item-name">ضدتروریسم</span><span class="shop-item-level" id="ctLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۱۰</div><div class="shop-item-price">💰 ۶۰ طلا</div><button onclick="buyBuilding('police_ct')" id="ctBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_cyber">
+                <div class="shop-item-header"><span class="shop-item-name">سایبری</span><span class="shop-item-level" id="cyberLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۸۵</div><div class="shop-item-price">💰 ۵۰ طلا</div><button onclick="buyBuilding('police_cyber')" id="cyberBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_intel">
+                <div class="shop-item-header"><span class="shop-item-name">اطلاعات داخلی</span><span class="shop-item-level" id="intelPoliceLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۹۵</div><div class="shop-item-price">💰 ۵۵ طلا</div><button onclick="buyBuilding('police_intel')" id="intelPoliceBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_border">
+                <div class="shop-item-header"><span class="shop-item-name">مرزی پیشرفته</span><span class="shop-item-level" id="borderLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۷۰</div><div class="shop-item-price">💰 ۳۵ طلا</div><button onclick="buyBuilding('police_border')" id="borderBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_urban">
+                <div class="shop-item-header"><span class="shop-item-name">امنیت شهری کامل</span><span class="shop-item-level" id="urbanLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۸۰</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('police_urban')" id="urbanBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_guard">
+                <div class="shop-item-header"><span class="shop-item-name">گارد ریاست‌جمهوری</span><span class="shop-item-level" id="guardLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۲۰</div><div class="shop-item-price">💰 ۷۰ طلا</div><button onclick="buyBuilding('police_guard')" id="guardBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="police_air">
+                <div class="shop-item-header"><span class="shop-item-name">پلیس هوایی</span><span class="shop-item-level" id="airPoliceLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۰۵</div><div class="shop-item-price">💰 ۶۵ طلا</div><button onclick="buyBuilding('police_air')" id="airPoliceBtn">استخدام</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دسته جاسوسی -->
+    <div class="shop-category">
+        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            <span class="emoji">🕵</span>
+            <span>سازمان جاسوسی و اطلاعات</span>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item" id="spy_med">
+                <div class="shop-item-header"><span class="shop-item-name">جاسوس متوسط</span><span class="shop-item-level" id="spyMedLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۵۰</div><div class="shop-item-price">💰 ۲۰ طلا</div><button onclick="buyBuilding('spy_med')" id="spyMedBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_strong">
+                <div class="shop-item-header"><span class="shop-item-name">جاسوس قوی</span><span class="shop-item-level" id="spyStrongLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۸۵</div><div class="shop-item-price">💰 ۴۰ طلا</div><button onclick="buyBuilding('spy_strong')" id="spyStrongBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_cyber">
+                <div class="shop-item-header"><span class="shop-item-name">پیشرفته سایبری</span><span class="shop-item-level" id="spyCyberLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۳۰</div><div class="shop-item-price">💰 ۷۰ طلا</div><button onclick="buyBuilding('spy_cyber')" id="spyCyberBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_foreign">
+                <div class="shop-item-header"><span class="shop-item-name">اطلاعات خارجی</span><span class="shop-item-level" id="foreignLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۹۵</div><div class="shop-item-price">💰 ۵۵ طلا</div><button onclick="buyBuilding('spy_foreign')" id="foreignBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_covert">
+                <div class="shop-item-header"><span class="shop-item-name">عملیات مخفی</span><span class="shop-item-level" id="covertLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۱۰</div><div class="shop-item-price">💰 ۶۰ طلا</div><button onclick="buyBuilding('spy_covert')" id="covertBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_sat">
+                <div class="shop-item-header"><span class="shop-item-name">شنود ماهواره‌ای</span><span class="shop-item-level" id="satLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۴۰</div><div class="shop-item-price">💰 ۷۵ طلا</div><button onclick="buyBuilding('spy_sat')" id="satBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_counter">
+                <div class="shop-item-header"><span class="shop-item-name">ضدجاسوسی</span><span class="shop-item-level" id="counterLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۸۰</div><div class="shop-item-price">💰 ۴۵ طلا</div><button onclick="buyBuilding('spy_counter')" id="counterBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_infiltrate">
+                <div class="shop-item-header"><span class="shop-item-name">عملیات نفوذ</span><span class="shop-item-level" id="infiltrateLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۲۰</div><div class="shop-item-price">💰 ۶۵ طلا</div><button onclick="buyBuilding('spy_infiltrate')" id="infiltrateBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_global">
+                <div class="shop-item-header"><span class="shop-item-name">شبکه مخفی جهانی</span><span class="shop-item-level" id="globalLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۱۷۰</div><div class="shop-item-price">💰 ۹۰ طلا</div><button onclick="buyBuilding('spy_global')" id="globalBtn">استخدام</button>
+            </div>
+            <div class="shop-item" id="spy_shadow">
+                <div class="shop-item-header"><span class="shop-item-name">واحد ویژه سایه</span><span class="shop-item-level" id="shadowLevel">0</span></div>
+                <div class="shop-item-desc">قدرت ۲۰۰</div><div class="shop-item-price">💰 ۱۰۰ طلا</div><button onclick="buyBuilding('spy_shadow')" id="shadowBtn">استخدام</button>
+            </div>
+        </div>
+    </div>
+
     <hr style="margin: 20px 0;">
     
     <div style="text-align: center; color: #94a3b8; font-size: 12px;">
-        هر آیتم قابلیت ارتقا تا سطح ۵ را دارد
+        هر آیتم قابلیت ارتقا تا سطح ۵ را دارد (به جز موارد خاص)
     </div>
 </div>
 
-<!-- استایل‌های فروشگاه -->
+<!-- استایل‌های فروشگاه (همانند قبل با اضافه شدن اندکی بهبود) -->
 <style>
 .shop-category { margin-bottom: 30px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
 .category-title { font-size: 20px; color: #fbbf24; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #3b82f6; display: flex; align-items: center; gap: 10px; }
@@ -194,4 +649,21 @@
 @keyframes upgradeFlash { 0% { background-color: #1e293b; } 50% { background-color: #2563eb; } 100% { background-color: #1e293b; } }
 .shop-item.upgrade { animation: upgradeFlash 0.5s ease-in-out; }
 @media (max-width: 768px) { .shop-grid { grid-template-columns: 1fr; } }
+/* استایل اختصاصی برای عنوان‌های شبیه دکمه */
+.category-title {
+    background: #2563eb;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    width: fit-content;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border: none;
+}
+.category-title:hover {
+    background: #3b82f6;
+    transform: scale(1.02);
+}
 </style>
