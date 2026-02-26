@@ -641,7 +641,7 @@
     </div>
 </div>
 
-<!-- استایل‌های فروشگاه (آپدیت شده) -->
+<!-- استایل‌های فروشگاه -->
 <style>
 .shop-category {
     margin-bottom: 15px;
@@ -702,118 +702,8 @@
 @media (max-width: 768px) { .shop-grid { grid-template-columns: 1fr; } }
 </style>
 
-<!-- اسکریپت آکاردئون (بدون inline onclick) -->
+<!-- اسکریپت آکاردئون (بدون تداخل با توابع سراسری) -->
 <script>
-// کپی shopData از index (در صورت عدم وجود)
-const shopData = {
-    mine: { price: 40, levelId: "mineLevel" },
-    farm: { price: 30, levelId: "farmLevel" },
-    refinery: { price: 50, levelId: "refineryLevel" },
-    market: { price: 60, levelId: "marketLevel" },
-    soldier: { price: 25, levelId: "soldierLevel" },
-    police: { price: 30, levelId: "policeLevel" },
-    tank: { price: 80, levelId: "tankLevel" },
-    fighterJet: { price: 100, levelId: "fighterJetLevel" },
-    bomber: { price: 150, levelId: "bomberLevel" },
-    drone: { price: 70, levelId: "droneLevel" },
-    bodyguard: { price: 40, levelId: "bodyguardLevel" },
-    safeHouse: { price: 60, levelId: "safeHouseLevel" },
-    bunker: { price: 120, levelId: "bunkerLevel" },
-    tank_abrams: { price: 40, levelId: "abramsLevel" },
-    tank_leopard: { price: 38, levelId: "leopardLevel" },
-    tank_t90: { price: 30, levelId: "t90Level" },
-    tank_challenger: { price: 34, levelId: "challengerLevel" },
-    tank_k2: { price: 42, levelId: "k2Level" },
-    tank_type99: { price: 32, levelId: "type99Level" },
-    tank_merkava: { price: 36, levelId: "merkavaLevel" },
-    tank_leclerc: { price: 35, levelId: "leclercLevel" },
-    tank_armata: { price: 45, levelId: "armataLevel" },
-    tank_m60: { price: 18, levelId: "m60Level" },
-    fighter_f35: { price: 75, levelId: "f35Level" },
-    fighter_su57: { price: 70, levelId: "su57Level" },
-    fighter_f22: { price: 85, levelId: "f22Level" },
-    fighter_f16: { price: 35, levelId: "f16Level" },
-    fighter_rafale: { price: 55, levelId: "rafaleLevel" },
-    fighter_typhoon: { price: 60, levelId: "typhoonLevel" },
-    fighter_j20: { price: 68, levelId: "j20Level" },
-    fighter_su35: { price: 58, levelId: "su35Level" },
-    fighter_mig29: { price: 30, levelId: "mig29Level" },
-    fighter_gripen: { price: 40, levelId: "gripenLevel" },
-    naval_carrier: { price: 150, levelId: "carrierLevel" },
-    naval_destroyer: { price: 65, levelId: "destroyerLevel" },
-    naval_battleship: { price: 80, levelId: "battleshipLevel" },
-    naval_sub_nuke: { price: 120, levelId: "subNukeLevel" },
-    naval_sub_diesel: { price: 60, levelId: "subDieselLevel" },
-    naval_frigate: { price: 35, levelId: "frigateLevel" },
-    naval_missileboat: { price: 25, levelId: "missileboatLevel" },
-    naval_support: { price: 30, levelId: "supportLevel" },
-    naval_amphibious: { price: 70, levelId: "amphibiousLevel" },
-    naval_minesweeper: { price: 20, levelId: "minesweeperLevel" },
-    missile_icbm: { price: 120, levelId: "icbmLevel" },
-    missile_irbm: { price: 80, levelId: "irbmLevel" },
-    missile_cruise: { price: 50, levelId: "cruiseLevel" },
-    missile_srbm: { price: 25, levelId: "srbmLevel" },
-    missile_asm: { price: 40, levelId: "asmLevel" },
-    missile_atgm: { price: 10, levelId: "atgmLevel" },
-    missile_mlrs: { price: 30, levelId: "mlrsLevel" },
-    missile_tactical: { price: 35, levelId: "tacticalLevel" },
-    missile_aam: { price: 20, levelId: "aamLevel" },
-    missile_agm: { price: 28, levelId: "agmLevel" },
-    defense_s400: { price: 85, levelId: "s400Level" },
-    defense_patriot: { price: 80, levelId: "patriotLevel" },
-    defense_shorad: { price: 25, levelId: "shoradLevel" },
-    defense_cua: { price: 20, levelId: "cuaLevel" },
-    defense_laser: { price: 60, levelId: "laserLevel" },
-    defense_radar: { price: 40, levelId: "radarLevel" },
-    defense_mobile: { price: 35, levelId: "mobileDefenseLevel" },
-    defense_dome: { price: 90, levelId: "domeLevel" },
-    defense_coastal: { price: 45, levelId: "coastalLevel" },
-    defense_aaa: { price: 15, levelId: "aaaLevel" },
-    heli_apache: { price: 50, levelId: "apacheLevel" },
-    heli_mi28: { price: 45, levelId: "mi28Level" },
-    heli_ka52: { price: 48, levelId: "ka52Level" },
-    heli_blackhawk: { price: 35, levelId: "blackhawkLevel" },
-    heli_chinook: { price: 40, levelId: "chinookLevel" },
-    heli_tiger: { price: 42, levelId: "tigerLevel" },
-    heli_z10: { price: 38, levelId: "z10Level" },
-    heli_cobra: { price: 28, levelId: "cobraLevel" },
-    heli_nh90: { price: 30, levelId: "nh90Level" },
-    heli_mi17: { price: 25, levelId: "mi17Level" },
-    police_med: { price: 15, levelId: "policeMedLevel" },
-    police_riot: { price: 30, levelId: "riotLevel" },
-    police_swat: { price: 45, levelId: "swatLevel" },
-    police_ct: { price: 60, levelId: "ctLevel" },
-    police_cyber: { price: 50, levelId: "cyberLevel" },
-    police_intel: { price: 55, levelId: "intelPoliceLevel" },
-    police_border: { price: 35, levelId: "borderLevel" },
-    police_urban: { price: 40, levelId: "urbanLevel" },
-    police_guard: { price: 70, levelId: "guardLevel" },
-    police_air: { price: 65, levelId: "airPoliceLevel" },
-    spy_med: { price: 20, levelId: "spyMedLevel" },
-    spy_strong: { price: 40, levelId: "spyStrongLevel" },
-    spy_cyber: { price: 70, levelId: "spyCyberLevel" },
-    spy_foreign: { price: 55, levelId: "foreignLevel" },
-    spy_covert: { price: 60, levelId: "covertLevel" },
-    spy_sat: { price: 75, levelId: "satLevel" },
-    spy_counter: { price: 45, levelId: "counterLevel" },
-    spy_infiltrate: { price: 65, levelId: "infiltrateLevel" },
-    spy_global: { price: 90, levelId: "globalLevel" },
-    spy_shadow: { price: 100, levelId: "shadowLevel" }
-};
-
-function updateShopUI() {
-    if (typeof window.geoWarSave === 'undefined' || !window.geoWarSave) return;
-    const gameState = window.geoWarSave;
-    if (!gameState.buildings) return;
-    for (let id in shopData) {
-        let level = gameState.buildings[id] || 0;
-        let levelElem = document.getElementById(shopData[id].levelId);
-        if (levelElem) levelElem.textContent = level;
-        let btn = document.getElementById(id + 'Btn');
-        if (btn) btn.disabled = (level >= 5);
-    }
-}
-
 // راه‌اندازی آکاردئون پس از لود صفحه
 document.addEventListener("DOMContentLoaded", function() {
     const headers = document.querySelectorAll(".shop-header");
@@ -829,10 +719,5 @@ document.addEventListener("DOMContentLoaded", function() {
             category.classList.toggle("active");
         });
     });
-
-    // به‌روزرسانی اولیه shop UI اگر gameState از قبل وجود داشته باشد
-    if (typeof window.geoWarSave !== 'undefined') {
-        updateShopUI();
-    }
 });
 </script>
