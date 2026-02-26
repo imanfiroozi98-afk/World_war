@@ -1,12 +1,12 @@
 <div style="padding: 20px;">
     <h2 style="color: #60a5fa; margin-bottom: 30px; text-align: center;">🏪 فروشگاه تجهیزات</h2>
     
-    <!-- بخش‌های قبلی (دسته‌های درآمدزا، نظامی، هوایی، حفاظت) به همان صورت باقی می‌مانند -->
-    <!-- بخش 1: تجهیزات درآمدزا -->
+    <!-- دسته 1: تجهیزات درآمدزا -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">💰</span>
             <span>تجهیزات درآمدزا</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="mineItem">
@@ -51,11 +51,12 @@
         </div>
     </div>
     
-    <!-- بخش 2: سرباز و پلیس -->
+    <!-- دسته 2: نیروی نظامی و انتظامی -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">👮</span>
             <span>نیروی نظامی و انتظامی</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="soldierItem">
@@ -90,11 +91,12 @@
         </div>
     </div>
     
-    <!-- بخش 3: جنگنده ها -->
+    <!-- دسته 3: نیروی هوایی -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">✈️</span>
             <span>نیروی هوایی</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="fighterJetItem">
@@ -129,11 +131,12 @@
         </div>
     </div>
     
-    <!-- بخش 4: حفاظت رئیس جمهور -->
+    <!-- دسته 4: حفاظت رئیس جمهور -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 15px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s;">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🛡️</span>
             <span>حفاظت رئیس جمهور</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="bodyguardItem">
@@ -173,12 +176,12 @@
     <!-- ========== دسته‌های جدید ========== -->
     <!-- دسته تانک‌ها -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🪖</span>
-            <span>تانک‌های ریاست‌جمهوری</span>
+            <span>تانک‌ها</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
-            <!-- لیست تانک‌ها -->
             <div class="shop-item" id="tank_abrams">
                 <div class="shop-item-header">
                     <span class="shop-item-name">🇺🇸 M1A2 Abrams</span>
@@ -274,9 +277,10 @@
 
     <!-- دسته جنگنده‌ها -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">✈️</span>
-            <span>جنگنده‌های راهبردی</span>
+            <span>جنگنده‌ها</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="fighter_f35">
@@ -324,9 +328,10 @@
 
     <!-- دسته ناوگان دریایی -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🚢</span>
             <span>ناوگان دریایی</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="naval_carrier">
@@ -374,9 +379,10 @@
 
     <!-- دسته موشک‌ها -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🚀</span>
-            <span>موشک‌های راهبردی</span>
+            <span>موشک‌ها</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="missile_icbm">
@@ -424,9 +430,10 @@
 
     <!-- دسته پدافند هوایی -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🛡</span>
-            <span>سامانه‌های پدافندی</span>
+            <span>پدافند هوایی</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="defense_s400">
@@ -474,9 +481,10 @@
 
     <!-- دسته بالگردها -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🚁</span>
-            <span>بالگردهای تهاجمی و پشتیبانی</span>
+            <span>بالگردها</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="heli_apache">
@@ -522,11 +530,12 @@
         </div>
     </div>
 
-    <!-- دسته پلیس ویژه (غیرسطحی) -->
+    <!-- دسته پلیس ویژه -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">👮</span>
-            <span>پلیس و یگان‌های ویژه</span>
+            <span>پلیس ویژه (ضدشورش و ...)</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="police_med">
@@ -574,9 +583,10 @@
 
     <!-- دسته جاسوسی -->
     <div class="shop-category">
-        <div class="category-title" style="display: flex; align-items: center; gap: 10px; background: #2563eb; color: white; padding: 8px 20px; border-radius: 30px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <div class="category-title" onclick="toggleCategory(this)">
             <span class="emoji">🕵</span>
-            <span>سازمان جاسوسی و اطلاعات</span>
+            <span>جاسوسی و اطلاعات</span>
+            <span class="toggle-icon">▼</span>
         </div>
         <div class="shop-grid">
             <div class="shop-item" id="spy_med">
@@ -625,16 +635,40 @@
     <hr style="margin: 20px 0;">
     
     <div style="text-align: center; color: #94a3b8; font-size: 12px;">
-        هر آیتم قابلیت ارتقا تا سطح ۵ را دارد (به جز موارد خاص)
+        هر آیتم قابلیت ارتقا تا سطح ۵ را دارد (با خرید مجدد)
     </div>
 </div>
 
-<!-- استایل‌های فروشگاه (همانند قبل با اضافه شدن اندکی بهبود) -->
+<!-- استایل‌های فروشگاه -->
 <style>
 .shop-category { margin-bottom: 30px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
-.category-title { font-size: 20px; color: #fbbf24; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid #3b82f6; display: flex; align-items: center; gap: 10px; }
-.category-title .emoji { font-size: 24px; }
-.shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 10px; }
+.category-title { 
+    font-size: 20px; 
+    color: #fbbf24; 
+    margin-bottom: 15px; 
+    padding-bottom: 5px; 
+    border-bottom: 2px solid #3b82f6; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer;
+    user-select: none;
+}
+.category-title .toggle-icon {
+    margin-left: auto;
+    font-size: 18px;
+    transition: transform 0.2s;
+}
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+.shop-grid.collapsed {
+    display: none;
+}
 .shop-item { background: #1e293b; padding: 18px 15px; border-radius: 12px; border: 1px solid #334155; transition: 0.2s; position: relative; overflow: hidden; }
 .shop-item:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 .shop-item::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: #2563eb; }
@@ -649,21 +683,26 @@
 @keyframes upgradeFlash { 0% { background-color: #1e293b; } 50% { background-color: #2563eb; } 100% { background-color: #1e293b; } }
 .shop-item.upgrade { animation: upgradeFlash 0.5s ease-in-out; }
 @media (max-width: 768px) { .shop-grid { grid-template-columns: 1fr; } }
-/* استایل اختصاصی برای عنوان‌های شبیه دکمه */
-.category-title {
-    background: #2563eb;
-    color: white;
-    padding: 8px 20px;
-    border-radius: 30px;
-    width: fit-content;
-    margin-bottom: 20px;
-    cursor: pointer;
-    transition: 0.2s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    border: none;
-}
-.category-title:hover {
-    background: #3b82f6;
-    transform: scale(1.02);
-}
 </style>
+
+<!-- اسکریپت برای باز و بسته کردن دسته‌ها -->
+<script>
+function toggleCategory(element) {
+    const grid = element.nextElementSibling;
+    const icon = element.querySelector('.toggle-icon');
+    if (grid.classList.contains('collapsed')) {
+        grid.classList.remove('collapsed');
+        icon.textContent = '▼';
+    } else {
+        grid.classList.add('collapsed');
+        icon.textContent = '▶';
+    }
+}
+
+// اگر updateShopUI از بیرون فراخوانی شود، سطح همه آیتم‌ها را به‌روز می‌کند
+function updateShopUI() {
+    // این تابع باید از index.html فراخوانی شود و مقادیر را از gameState.buildings بخواند
+    // برای اینجا فقط یک placeholder است
+    console.log('updateShopUI called');
+}
+</script>
