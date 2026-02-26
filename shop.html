@@ -3,7 +3,7 @@
     
     <!-- دسته 1: تجهیزات درآمدزا -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>💰 تجهیزات درآمدزا</span>
             <span class="arrow">▼</span>
         </div>
@@ -51,7 +51,7 @@
 
     <!-- دسته 2: نیروی نظامی و انتظامی -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>👮 نیروی نظامی و انتظامی</span>
             <span class="arrow">▼</span>
         </div>
@@ -90,7 +90,7 @@
 
     <!-- دسته 3: نیروی هوایی -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>✈️ نیروی هوایی</span>
             <span class="arrow">▼</span>
         </div>
@@ -129,7 +129,7 @@
 
     <!-- دسته 4: حفاظت رئیس جمهور -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🛡️ حفاظت رئیس جمهور</span>
             <span class="arrow">▼</span>
         </div>
@@ -170,7 +170,7 @@
 
     <!-- دسته 5: تانک‌ها -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🪖 تانک‌ها</span>
             <span class="arrow">▼</span>
         </div>
@@ -272,7 +272,7 @@
 
     <!-- دسته 6: جنگنده‌ها -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>✈️ جنگنده‌ها</span>
             <span class="arrow">▼</span>
         </div>
@@ -324,7 +324,7 @@
 
     <!-- دسته 7: ناوگان دریایی -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🚢 ناوگان دریایی</span>
             <span class="arrow">▼</span>
         </div>
@@ -376,7 +376,7 @@
 
     <!-- دسته 8: موشک‌ها -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🚀 موشک‌ها</span>
             <span class="arrow">▼</span>
         </div>
@@ -428,7 +428,7 @@
 
     <!-- دسته 9: پدافند هوایی -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🛡 پدافند هوایی</span>
             <span class="arrow">▼</span>
         </div>
@@ -480,7 +480,7 @@
 
     <!-- دسته 10: بالگردها -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🚁 بالگردها</span>
             <span class="arrow">▼</span>
         </div>
@@ -532,7 +532,7 @@
 
     <!-- دسته 11: پلیس ویژه -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>👮 پلیس ویژه (ضدشورش و ...)</span>
             <span class="arrow">▼</span>
         </div>
@@ -584,7 +584,7 @@
 
     <!-- دسته 12: جاسوسی -->
     <div class="shop-category">
-        <div class="shop-header" onclick="toggleCategory(this)">
+        <div class="shop-header">
             <span>🕵 جاسوسی و اطلاعات</span>
             <span class="arrow">▼</span>
         </div>
@@ -702,29 +702,8 @@
 @media (max-width: 768px) { .shop-grid { grid-template-columns: 1fr; } }
 </style>
 
-<!-- اسکریپت آکاردئون -->
+<!-- اسکریپت آکاردئون (بدون inline onclick) -->
 <script>
-function toggleCategory(header) {
-    const category = header.parentElement;
-    category.classList.toggle('active');
-}
-
-// این تابع از index.html فراخوانی می‌شود تا سطح‌ها و دکمه‌ها به‌روز شوند
-function updateShopUI() {
-    // اگر gameState در دسترس نباشد، کاری نمی‌کند (در index مقداردهی می‌شود)
-    if (typeof window.geoWarSave === 'undefined' || !window.geoWarSave) return;
-    const gameState = window.geoWarSave;
-    if (!gameState.buildings) return;
-    // به‌روزرسانی سطوح
-    for (let id in shopData) {
-        let level = gameState.buildings[id] || 0;
-        let levelElem = document.getElementById(shopData[id].levelId);
-        if (levelElem) levelElem.textContent = level;
-        let btn = document.getElementById(id + 'Btn'); // دکمه‌ها id شان idBtn است
-        if (btn) btn.disabled = (level >= 5);
-    }
-}
-
 // کپی shopData از index (در صورت عدم وجود)
 const shopData = {
     mine: { price: 40, levelId: "mineLevel" },
@@ -822,8 +801,36 @@ const shopData = {
     spy_shadow: { price: 100, levelId: "shadowLevel" }
 };
 
-// اگر gameState از طریق window.geoWarSave در دسترس باشد، UI را به‌روز کن
+function updateShopUI() {
+    if (typeof window.geoWarSave === 'undefined' || !window.geoWarSave) return;
+    const gameState = window.geoWarSave;
+    if (!gameState.buildings) return;
+    for (let id in shopData) {
+        let level = gameState.buildings[id] || 0;
+        let levelElem = document.getElementById(shopData[id].levelId);
+        if (levelElem) levelElem.textContent = level;
+        let btn = document.getElementById(id + 'Btn');
+        if (btn) btn.disabled = (level >= 5);
+    }
+}
+
+// راه‌اندازی آکاردئون پس از لود صفحه
 document.addEventListener("DOMContentLoaded", function() {
+    const headers = document.querySelectorAll(".shop-header");
+    headers.forEach(header => {
+        header.addEventListener("click", function() {
+            const category = this.parentElement;
+            // (اختیاری) بستن بقیه دسته‌ها
+            document.querySelectorAll(".shop-category").forEach(cat => {
+                if (cat !== category) {
+                    cat.classList.remove("active");
+                }
+            });
+            category.classList.toggle("active");
+        });
+    });
+
+    // به‌روزرسانی اولیه shop UI اگر gameState از قبل وجود داشته باشد
     if (typeof window.geoWarSave !== 'undefined') {
         updateShopUI();
     }
